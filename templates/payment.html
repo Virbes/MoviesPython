@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Payment{% endblock title %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns has-text-centered">
+
+                <div class="column">
+                    <p><img src="../static/images/payment/reference.png" width="112px"></p>
+                    <a class="button box is-large m-5" href="#">Referencia Bancaria</a>
+                </div>
+
+                <div class="column">
+                    <img src="../static/images/payment/efectivo.png" width="100px">
+                    <a class="button box is-large m-5" href="{{ url_for('payment_cash') }}">Efectivo</a>
+                </div>
+
+                <div class="column">
+                    <img src="../static/images/payment/line.png" width="100px">
+                    <a class="button box is-large m-5" href="#">Pago en línea</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
