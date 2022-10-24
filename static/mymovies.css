@@ -21,9 +21,22 @@ body{
     grid-template-columns: repeat(12, 1fr);
     gap: 1rem;
 }
-.btn-login{
-    grid-column: 11/12;
+
+.nav__principal--img{
+    width: 5rem;
+    margin-top: -10px;
 }
+.btn-login{
+    grid-column: 10/12;
+}
+.btn-registro{
+    color: #ccc;
+    font-size: 1rem;
+}
+.btn-flex{
+    display: flex;
+    gap: 1rem;
+} 
 
 .hero{
     background-image: url('../static/images/inicio/tyson-moultrie-BQTHOGNHo08-unsplash.jpg');
@@ -31,16 +44,20 @@ body{
     background-size: cover;
     background-position: center;
     height: 100vh;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 .hero-body{
     background-color: rgb(0 0 0 / 70%);
-    display: flex;
+    /* display: flex; */
     font-size: 1.3rem;
-    align-items: center;
+    /* align-items: center; */
 }
 .hero-body p{
     color: white;
+}
+.hero-body nav{
+    margin-top: 0;
+    padding: 0;
 }
 
 h1 {
@@ -61,7 +78,7 @@ h1 {
     .nav-principal{
         margin-top: 1rem;
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
     }
 }
 

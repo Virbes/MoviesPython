@@ -193,7 +193,8 @@ def edit_profile(username):
 def home_page():
     today = datetime.today()
     day_name = today.strftime('%A')
-    return render_template('home.html', day=day_name)
+    home='inicio'
+    return render_template('home.html', day=day_name, home=home)
 
 
 def movies_page():

@@ -4,11 +4,37 @@
 {% block content %}
 
 <section class="hero">
+
+    <header class="hero-body">
+        <nav aria-label="main navigation">
+
+            <div class="nav-principal">
+                <div class="nav__principal--img">
+                    <a href="{{ url_for('home_page') }}">
+                        <img class="nav__principal--img" src="../static/images/inicio/logo.png" alt="">
+                    </a>
+                </div>
+                
+                <div class="btn-login">
+                    <div class="btn-flex">
+                        {% if not current_user.is_authenticated %}
+                        <a class="btn-registro" href="{{ url_for('login_page') }}">Iniciar sesion</a>
+                        <a class="btn-registro" href="#">Registrar</a> <!--Boton de registro-->
+                        {% endif %}
+                    </div>
+                </div>
+                <span>
+                    <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
+                </span>
+            </div>
+        </nav>
+    </header>
+
     <div class="hero-body">
         <div class="container has-text-centered">
             <div class="column is-4 is-offset-4">
 
-                <h3 class="title has-text-grey">Login</h3>
+                <h3 class="title has-text-grey">Inicia Sesion</h3>
 
                 <div class="box">
                     <form action="" method="POST" name="login">
@@ -17,7 +43,7 @@
                         <div class="field">
                             <div class="control">
                                 {{ form.username(required=True, autofocus=True, class="input is-large",
-                                placeholder="Your username") }}
+                                placeholder="Usuario") }}
                             </div>
 
                             {% for error in form.username.errors %}
@@ -28,7 +54,7 @@
                         <div class="field">
                             <div class="control">
                                 {{ form.password(required=True, class="input is-large",
-                                placeholder="Your password") }}
+                                placeholder="Contraseña") }}
                             </div>
 
                             {% for error in form.password.errors %}
@@ -36,7 +62,7 @@
                             {% endfor %}
                         </div>
 
-                        <button class="button is-block is-info is-large is-fullwidth">Login</button>
+                        <button class="button is-block is-info is-large is-fullwidth">Entrar</button>
 
                     </form>
                 </div>
