@@ -1,16 +1,16 @@
 {% extends 'layout.html' %}
 {% block title %}Home{% endblock title %}
-
 {% block content %}
+
 <section class="hero">
 
-    <header class="hero-body">
+    <!-- <header class="hero-body">
         <nav aria-label="main navigation">
 
             <div class="nav-principal">
                 <div class="nav__principal--img">
                     <a href="{{ url_for('home_page') }}">
-                        <img class="nav__principal--img" src="../static/images/inicio/logo.png" alt="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" style="fill: #3298DC;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm.001 6c-.001 0-.001 0 0 0h-.465l-2.667-4H20l.001 4zM15.5 15 10 18v-6l5.5 3zm-.964-6-2.667-4h2.596l2.667 4h-2.596zm-2.404 0H9.536L6.869 5h2.596l2.667 4zM4 5h.465l2.667 4H4V5z"></path></svg>
                     </a>
                 </div>
                 
@@ -18,25 +18,44 @@
                     <div class="btn-flex">
                         {% if not current_user.is_authenticated %}
                         <a class="btn-registro" href="{{ url_for('login_page') }}">Iniciar sesion</a>
-                        <a class="btn-registro" href="#">Registrar</a> <!--Boton de registro-->
+                        <a class="btn-registro" href="{{ url_for('registro_page') }}">Registrar</a>
                         {% endif %}
                     </div>
                 </div>
                 <span>
                     <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
                 </span>
+
             </div>
         </nav>
-    </header> <!-- NAVEGACION DE INICIO -->
+    </header>  -->
+    
 
     <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">MI COLECCIÓN DE PELÍCULAS</h1>
+
+        {% include 'header.html' %}
+
+        <div class="has-text-centered titulo-principal">
+
+            {% if not current_user.is_authenticated %}
+                 <h1 class="title">MI COLECCIÓN DE PELÍCULAS</h1>
+            {% endif %}
+
+            <div>
+                {% if current_user.is_authenticated %}
+                <h1 class="title">HOLA {{ current_user.username }}</h1>
+                {% endif %}
+            </div>
+            
             <p class="subtitle">Que tenga un buen {{ day }}</p>
+
             <div>
                 <a class="button is-danger" href="{{ url_for('movies_page') }}">Lista de Películas</a>
             </div>
         </div>
+
     </div>
+
 </section>
+{% include 'footer.html' %}
 {% endblock content %}

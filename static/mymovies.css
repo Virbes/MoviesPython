@@ -8,27 +8,42 @@
 body{
     font-family: 'Krub', sans-serif;
 }
+h1{
+    color: #fff !important;
+}
 
 .contenedor{
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Pagina principal         @hecho by tomas y virbes*/
+/* Pagina principal ************@hecho by tomas y virbes*******************/
 .nav-principal{
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 1rem;
 }
-
-.nav__principal--img{
-    width: 5rem;
-    margin-top: -10px;
+.nav-dentro{
+    margin-top: -60px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+.btn-agregar{
+    grid-column: 2/3;
 }
 .btn-login{
     grid-column: 10/12;
 }
+.titulo-principal{
+    margin-top: 12rem;
+    background-color: rgb(0 0 0 / 0%);
+}
+.nav__principal--img{
+    width: 5rem;
+    margin-top: -20px;
+}
+
 .btn-registro{
     color: #ccc;
     font-size: 1rem;
@@ -37,7 +52,6 @@ body{
     display: flex;
     gap: 1rem;
 } 
-
 .hero{
     background-image: url('../static/images/inicio/tyson-moultrie-BQTHOGNHo08-unsplash.jpg');
     background-repeat: no-repeat;
@@ -48,9 +62,7 @@ body{
 }
 .hero-body{
     background-color: rgb(0 0 0 / 70%);
-    /* display: flex; */
     font-size: 1.3rem;
-    /* align-items: center; */
 }
 .hero-body p{
     color: white;
@@ -60,11 +72,27 @@ body{
     padding: 0;
 }
 
-h1 {
-    color: #fff !important;
+/* LOGIN ************@hecho by tomas y virbes******************/
+.contenedor-perfil{
+    margin-top: 5rem;
 }
 
-/* footer          @hecho by tomas y virbes*/
+/* about ************@hecho by tomas y virbes*******************/
+.texto h3 span{
+    font-weight: 700;
+}
+.marca{
+    color: #3298DC;
+}
+.marca span{
+    color: #F14668;
+}
+.card-img img{
+    width: 20rem;
+    height: 20rem;
+    border-radius: 50%;
+}
+/* footer ************@hecho by tomas y virbes******************/
 .footer{
     text-align: center;
     background-color: black;
@@ -74,7 +102,7 @@ h1 {
     justify-content: center;
     gap: 1rem;
 }
-@media (max-width: 426px) {
+@media (max-width: 768px) {
     .nav-principal{
         margin-top: 1rem;
         display: flex;

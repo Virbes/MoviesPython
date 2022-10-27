@@ -36,6 +36,13 @@ def login_page():
 
     return render_template('login.html', form=form)
 
+# REGISTO_PAGE
+def registro_page():
+    form = LoginForm()
+    return render_template('registro.html', form=form)
+
+
+
 
 def logout_page():
     logout_user()
