@@ -26,17 +26,15 @@ h1{
 }
 .nav-dentro{
     margin-top: -60px;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-}
-.btn-agregar{
-    grid-column: 2/3;
+
+    display: flex;
+    justify-content: space-evenly;
 }
 .btn-login{
     grid-column: 10/12;
 }
 .titulo-principal{
-    margin-top: 12rem;
+    margin-top: 18rem;
     background-color: rgb(0 0 0 / 0%);
 }
 .nav__principal--img{
@@ -58,7 +56,6 @@ h1{
     background-size: cover;
     background-position: center;
     height: 100vh;
-    /* margin-top: 1rem; */
 }
 .hero-body{
     background-color: rgb(0 0 0 / 70%);
@@ -91,6 +88,10 @@ h1{
     width: 20rem;
     height: 20rem;
     border-radius: 50%;
+}
+.about{
+    margin-left: 2rem;
+    margin-top: -0.5rem;
 }
 /* footer ************@hecho by tomas y virbes******************/
 .footer{
