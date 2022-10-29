@@ -1,15 +1,27 @@
 import os
+import locale
 import pathlib
+import database
 import webbrowser
 
-import database
+from user import User
 from movie import Movie
 from datetime import datetime
-from forms import MovieEditForm, LoginForm, CreateUserForm, CategoryForm, PaymentCash
 from passlib.hash import pbkdf2_sha256 as hasher
 from flask_login import login_required, current_user, login_user, logout_user
+from forms import MovieEditForm, LoginForm, CreateUserForm, CategoryForm, PaymentCash
 from flask import render_template, current_app, abort, request, url_for, redirect, flash
-from user import User
+
+
+def home_page():
+    locale.setlocale(locale.LC_TIME, '')
+    today = datetime.today()
+    day_name = today.strftime('%A')
+
+    db = current_app.config['db']
+    movie = db.get_movie(7)
+
+    return render_template('home.html', day=day_name, movie=movie)
 
 
 def login_page():
@@ -17,7 +29,9 @@ def login_page():
 
     if form.validate_on_submit():
         username = form.data['username']
-        user = database.get_user(username)
+
+        db = current_app.config['db']
+        user = db.get_user(username)
 
         if user is not None:
             password = form.data['password']
@@ -43,6 +57,94 @@ def logout_page():
     return redirect(url_for('home_page'))
 
 
+def movies_page():
+    db = current_app.config['db']
+
+    if request.method == 'GET':
+        movies = db.get_movies()
+        return render_template('movies.html', movies=movies)
+
+    else:
+
+        if not current_user.is_admin:
+            return render_template('page_401.html')
+
+        movie_keys = request.form.getlist('movie_keys')
+
+        for movie_key in movie_keys:
+            image = db.get_image(movie_key)
+            if image:
+                os.remove('static/images/upload/movies/' + image)  # borrar primero la imagen del directorio
+
+            database.delete_movie(int(movie_key))
+
+        return redirect(url_for('movies_page'))
+
+
+def movie_page(movie_key):
+    db = current_app.config['db']
+    movie = db.get_movie(movie_key)
+
+    if movie is None:
+        return render_template('page_404.html')
+
+    return render_template('movie.html', movie=movie)
+
+
+@login_required
+def movie_edit_page(movie_key):
+    movie = database.get_movie(movie_key)
+
+    if movie is None:
+        return render_template('page_404.html')
+
+    if not current_user.is_admin:
+        return render_template('page_401.html')
+
+    form = MovieEditForm()
+
+    if form.validate_on_submit():
+        title = form.data['title'].strip()  # Quitar espacios restantes
+        year = form.data['year']
+        category = form.data['category']
+        country = form.data['country']
+        image = form.data['image']
+        stock = form.data['stock']
+        price = form.data['price']
+
+        if image:
+            image_name = title
+            date = datetime.now().strftime('%Y%m%d')
+            time = datetime.now().strftime('%H%M%S')
+            extension = pathlib.Path(image.filename).suffix
+            filename = image_name + date + time + extension
+
+            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            movie = Movie(title, year, category, country, filename, stock, price)
+
+            old_image = database.get_image(movie_key)
+            if old_image:
+                os.remove('static/images/upload/movies/' + old_image)  # borrar la imagen anterior
+        else:
+            movie = Movie(title, year, category, country, None, stock, price)
+
+        database.update_movie(movie_key, movie)
+
+        return redirect(url_for('movie_page', movie_key=movie_key))
+
+    form.category.choices.clear()
+    form.category.choices = database.get_categories()
+
+    form.title.data = movie.title
+    form.year.data = movie.year if movie.year else ''
+    form.category.data = movie.category
+    form.country.data = movie.country
+    form.stock.data = movie.stock
+    form.price.data = movie.price
+
+    return render_template('movie_edit.html', form=form)
+
+
 def create_user():
     if not current_user.is_admin:
         return render_template('page_401.html')
@@ -58,7 +160,7 @@ def create_user():
         hashed = hasher.hash(password)  # Contraseña enmascarada
 
         name = form.data['name'].strip()  # Quitar espacios restantes
-        lastname = form.data['lastname'].strip()  # Quitar espacios restantes
+        last_name = form.data['lastname'].strip()  # Quitar espacios restantes
         address = form.data['address'].strip()  # Quitar espacios restantes
         telephone = form.data['phone'].strip()
         date_birth = form.data['dateBirth']
@@ -73,16 +175,17 @@ def create_user():
             filename = image_name + date + time + extension
 
             image.save(os.path.join(current_app.config['UPLOAD_FOLDER_PROFILE'], filename))
-            user = User(None, name, lastname, address, telephone if telephone else None, date_birth if date_birth else None, role, filename, username, hashed)
+            user = User(None, name, last_name, address, telephone if telephone else None, date_birth if date_birth else None, role, filename, username, hashed)
         else:
-            user = User(None, name, lastname, address, telephone if telephone else None, date_birth if telephone else None, role, None, username, hashed)
+            user = User(None, name, last_name, address, telephone if telephone else None, date_birth if telephone else None, role, None, username, hashed)
 
-        user_exists = database.get_user(username)
+        db = current_app.config['db']
+        user_exists = db.get_user(username)
 
         if user_exists:
-            flash('Username no disponible')
+            flash('Nombre de usuario no disponible')
         else:
-            database.create_user(user)
+            db.create_user(user)
             return redirect(url_for('manage_users'))
 
     return render_template('user_edit.html', form=form)
@@ -188,49 +291,6 @@ def edit_profile(username):
     form.role.data = user_data.role
 
     return render_template('user_edit.html', form=form)
-
-
-def home_page():
-    today = datetime.today()
-    day_name = today.strftime('%A')
-    return render_template('home.html', day=day_name)
-
-
-def movies_page():
-    if request.method == 'GET':
-        movies = database.get_movies()
-        my_movies_keys = []
-
-        if current_user.is_authenticated:
-            my_movies = database.get_my_cart(current_user.id_user)
-
-            for movie in my_movies:
-                my_movies_keys.append(movie['id_movie'])
-
-        return render_template('movies.html', movies=movies, my_movies_keys=my_movies_keys)
-    else:
-        if not current_user.is_admin:
-            return render_template('page_401.html')
-
-        movie_keys = request.form.getlist('movie_keys')
-
-        for movie_key in movie_keys:
-            image = database.get_image(movie_key)
-            if image:
-                os.remove('static/images/upload/movies/' + image)  # borrar primero la imagen del directorio
-
-            database.delete_movie(int(movie_key))
-
-        return redirect(url_for('movies_page'))
-
-
-def movie_page(movie_key):
-    movie = database.get_movie(movie_key)
-
-    if movie is None:
-        return render_template('page_404.html')
-
-    return render_template('movie.html', movie=movie)
 
 
 @login_required
@@ -377,60 +437,6 @@ def movie_add_page():
             flash(error + ' - ' + str(form.errors[error][0]))
 
     return render_template('movie_edit.html', min_year=1887, max_year=datetime.now().year, form=form)
-
-
-@login_required
-def movie_edit_page(movie_key):
-    movie = database.get_movie(movie_key)
-
-    if movie is None:
-        return render_template('page_404.html')
-
-    if not current_user.is_admin:
-        return render_template('page_401.html')
-
-    form = MovieEditForm()
-
-    if form.validate_on_submit():
-        title = form.data['title'].strip()  # Quitar espacios restantes
-        year = form.data['year']
-        category = form.data['category']
-        country = form.data['country']
-        image = form.data['image']
-        stock = form.data['stock']
-        price = form.data['price']
-
-        if image:
-            image_name = title
-            date = datetime.now().strftime('%Y%m%d')
-            time = datetime.now().strftime('%H%M%S')
-            extension = pathlib.Path(image.filename).suffix
-            filename = image_name + date + time + extension
-
-            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            movie = Movie(title, year, category, country, filename, stock, price)
-
-            old_image = database.get_image(movie_key)
-            if old_image:
-                os.remove('static/images/upload/movies/' + old_image)  # borrar la imagen anterior
-        else:
-            movie = Movie(title, year, category, country, None, stock, price)
-
-        database.update_movie(movie_key, movie)
-
-        return redirect(url_for('movie_page', movie_key=movie_key))
-
-    form.category.choices.clear()
-    form.category.choices = database.get_categories()
-
-    form.title.data = movie.title
-    form.year.data = movie.year if movie.year else ''
-    form.category.data = movie.category
-    form.country.data = movie.country
-    form.stock.data = movie.stock
-    form.price.data = movie.price
-
-    return render_template('movie_edit.html', form=form)
 
 
 @login_required

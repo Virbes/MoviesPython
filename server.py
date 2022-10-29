@@ -1,15 +1,17 @@
-from flask import Flask
-from flask_login import LoginManager
-
+import os
 import views
-from database import get_user
+
+from flask import Flask, current_app
+from databaseSQLite import Database
+from flask_login import LoginManager
 
 lm = LoginManager()
 
 
 @lm.user_loader
 def load_user(user_id):
-    return get_user(user_id)
+    db = current_app.config['db']
+    return db.get_user(user_id)
 
 
 def create_app():
@@ -20,8 +22,8 @@ def create_app():
     app.add_url_rule('/login', view_func=views.login_page, methods=['GET', 'POST'])
     app.add_url_rule('/logout', view_func=views.logout_page)
     app.add_url_rule('/movies', view_func=views.movies_page, methods=['GET', 'POST'])
-    app.add_url_rule('/movie/<int:movie_key>/edit', view_func=views.movie_edit_page, methods=['GET', 'POST'])
     app.add_url_rule('/movie/<int:movie_key>', view_func=views.movie_page)
+    app.add_url_rule('/movie/<int:movie_key>/edit', view_func=views.movie_edit_page, methods=['GET', 'POST'])
     app.add_url_rule('/new-movie', view_func=views.movie_add_page, methods=['GET', 'POST'])
     app.add_url_rule('/profile', view_func=views.profile, methods=['GET', 'POST'])
     app.add_url_rule('/categories', view_func=views.categories, methods=['GET', 'POST'])
@@ -47,6 +49,12 @@ def create_app():
 
     lm.init_app(app)
     lm.login_view = 'login_page'
+
+    home_path = os.path.expanduser('movies')
+    path_db = 'C:/Users/Francisco Virbes/Documents/PycharmProjects/pythonProject'
+
+    db = Database(os.path.join(path_db, 'movies.sqlite'))
+    app.config['db'] = db
 
     return app
 
