@@ -3,11 +3,11 @@
 
 {% block content %}
 
-<section class="hero">
-    <div class="container">
+<section class="perfil-bg contenedor">
 
-        <div class="box">
+    <div class="box-perfil">
 
+        <div class="flex-perfil">
             <div class="profile-picture">
                 {% if current_user.image %}
                 <img src="{{ url_for('static', filename='images/upload/profile_picture/') }}{{ current_user.image }}">
@@ -15,15 +15,12 @@
                 <img src="{{ url_for('static', filename='images/upload/profile_picture/default.png') }}">
                 {% endif %}
             </div>
-
-
-            <div class="box">
+            <div class="box caja-perfil">
                 <table>
-
                     <thead>
                         <tr>
-                            <th>Username</th>
-                            <th>Role</th>
+                            <th>Usuario</th>
+                            <th>Rol</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,51 +29,50 @@
                             <td><span>{{ current_user.role }}</span></td>
                         </tr>
                     </tbody>
-
-                </table>
-            </div>
-
-            <div class="box">
-                <table>
-                    <tr>
-                        <td>
-                            <h3 class="mb-1">Name</h3>
-                            <span>{{ current_user.name }}</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h3 class="mt-2 mb-1">Last Name</h3>
-                            <span>{{ current_user.lastName }}</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h3 class="mt-2 mb-1">Address</h3>
-                            <span>{{ current_user.address }}</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h3 class="mt-2 mb-1">Phone Number</h3>
-                            <span>{{ current_user.phone }}</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <h3 class="mt-2 mb-1">Date of Birth</h3>
-                            <span>{{ current_user.dateBirth }}</span>
-                        </td>
-                    </tr>
                 </table>
             </div>
         </div>
 
+        <div class="box">
+            <table>
+                <tr>
+                    <td>
+                        <h3 class="mb-1">Nombre</h3>
+                        <span>{{ current_user.name }}</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <h3 class="mt-2 mb-1">Apellido</h3>
+                        <span>{{ current_user.lastName }}</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <h3 class="mt-2 mb-1">Dirección</h3>
+                        <span>{{ current_user.address }}</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <h3 class="mt-2 mb-1">Teléfono</h3>
+                        <span>{{ current_user.phone }}</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <h3 class="mt-2 mb-1">Fecha de nacimiento</h3>
+                        <span>{{ current_user.dateBirth }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
+
 </section>
 
 {% endblock content %}
