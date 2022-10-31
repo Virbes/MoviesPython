@@ -4,13 +4,13 @@
 
 <h1 class="title">Edit Movies</h1>
 
-<a class="button is-info is-small mb-4" href="{{ url_for('categories') }}">Add Category</a>
+<a class="button is-info is-small mb-4" href="{{ url_for('categories') }}">Agregar categoría</a>
 
 <form method="POST" name="movie_edit" enctype="multipart/form-data">
     {{ form.csrf_token }}
 
     <div class="field">
-        <label for="title" class="label">Title</label>
+        <label for="title" class="label">Título</label>
         <div class="control">
             {{ form.title(required=True, autofocus=True, class="input") }}
         </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="field">
-        <label for="year" class="label">Year</label>
+        <label for="year" class="label">Año</label>
         <div class="control">
             {{ form.year(class="input") }}
         </div>

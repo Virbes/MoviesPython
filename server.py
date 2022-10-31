@@ -18,6 +18,7 @@ def create_app():
 
     app.add_url_rule('/', view_func=views.home_page)
     app.add_url_rule('/login', view_func=views.login_page, methods=['GET', 'POST'])
+    app.add_url_rule('/registro', view_func=views.registro_page)  #REGISTRO_PAGE
     app.add_url_rule('/logout', view_func=views.logout_page)
     app.add_url_rule('/movies', view_func=views.movies_page, methods=['GET', 'POST'])
     app.add_url_rule('/movie/<int:movie_key>/edit', view_func=views.movie_edit_page, methods=['GET', 'POST'])

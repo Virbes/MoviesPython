@@ -14,75 +14,6 @@
 
 <body>
 
-    <header class="contenedor">
-        <nav aria-label="main navigation">
-
-            <div class="nav-principal">
-                <div>
-                    <a class="button is-link" href="{{ url_for('home_page') }}">Inicio</a>
-                </div>
-                <div>
-                    <a class="button is-link" href="{{ url_for('movies_page') }}">Lista de Películas</a>
-                </div>
-                <div class="btn-login">
-                    {% if not current_user.is_authenticated %}
-                    <a class="button is-link" href="{{ url_for('login_page') }}">Iniciar sesion</a>
-                    {% endif %}
-                </div>
-                <span>
-                    <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
-                </span>
-            </div>
-
-            {% if current_user.is_admin %}
-            <div>
-                <a class="button is-link" href="{{ url_for('movie_add_page') }}">Agregar película</a>
-            </div>
-            {% endif %}
-
-            {% if current_user.is_authenticated %}
-            <div>
-                <a class="button is-link" href="{{ url_for('profile') }}">Perfil</a>
-            </div>
-            {% endif %}
-
-            {% if current_user.is_authenticated and current_user.username == 'admin' %}
-            <div>
-                <a class="button is-link" href="{{ url_for('manage_users') }}">Usuarios</a>
-            </div>
-            {% endif %}
-    
-        </nav>
-
-        <nav aria-label="main navigation">
-            <div class="navbar-end">
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <a class="button is-link" href="{{ url_for('my_cart') }}">My Cart</a>
-                    {% endif %}
-                </span>
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <a class="button is-link" href="{{ url_for('my_shopping') }}">My Shopping</a>
-                    {% endif %}
-                </span>
-                {% if current_user.is_admin and current_user.is_authenticated and current_user.username == 'admin' %}
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{{ url_for('report_sales') }}">Report Sales</a>
-                    </span>
-                {% endif %}
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <p class="mr-2 is-size-4">{{ current_user.username }}</p>
-                    <a href="{{ url_for('logout_page') }}" class="button is-danger is-link">Log out</a>
-                    {% endif %}
-                </span>
-                
-            </div>
-        </nav>
-
-    </header>
-
     <main>
 
         {% for message in get_flashed_messages() %}
@@ -96,22 +27,7 @@
             </div>
         </section>
     </main>
-
-
-    <footer class="footer">
-        <div class="content">
-            <small>&copy; 2022, My love</small>
-        </div>
-        <div class="footer-img">
-            <a href="https://www.facebook.com/marioadolfo.tomas" target="_blank">
-                <img src="../static/images/footer/icon-facebook.svg" alt="">
-            </a>
-            <a href="https://www.instagram.com/francisco.virbes_/" target="_blank">
-                <img src="../static/images/footer/icon-instagram.svg" alt="">
-            </a>
-        </div>
-    </footer>
-
+    {% include 'footer.html' %}
 </body>
 
 </html>
