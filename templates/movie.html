@@ -54,13 +54,13 @@
 </div>
 
 <div class="field is-grouped">
-    {% if current_user.is_authenticated and current_user.is_admin %}
+    {% if current_user.role == 'Admin' %}
     <div class="control">
         <a class="button is-primary is-outlined is-small" href="{{ request.path }}/edit">Edit</a>
     </div>
     {% endif %}
 
-    {% if current_user.is_authenticated and movie.stock > 0 %}
+    {% if movie.stock > 0 %}
     <div class="control">
         <a class="button is-danger is-outlined is-small" href="{{ request.path }}/acquire">Acquire</a>
     </div>

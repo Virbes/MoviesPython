@@ -1,8 +1,6 @@
-import sqlite3 as dbapi2
-
 from user import User
 from movie import Movie
-from flask import current_app
+import sqlite3 as dbapi2
 
 
 class Database:
@@ -15,11 +13,11 @@ class Database:
 
         with dbapi2.connect(self.db_file) as connection:
             cursor = connection.cursor()
-            query = 'SELECT id_movie, Title, Year FROM Movies'
+            query = 'SELECT id_movie, Title, Year, Image FROM Movies'
             cursor.execute(query)
 
-            for _id, title, year in cursor:
-                movies.append((_id, Movie(title, year, '', '', '', 0, 0)))
+            for _id, title, year, image in cursor:
+                movies.append((_id, Movie(title, year, '', '', image, 0, 0)))
 
         return movies
 
@@ -74,7 +72,12 @@ class Database:
 
             connection.commit()
 
-    ## < ----------------------------------------------------------------------------- > ##
+    def delete_movie(self, movie_key):
+        with dbapi2.connect(self.db_file) as connection:
+            cursor = connection.cursor()
+            query = 'DELETE FROM MOVIES WHERE (id_movie = ?)'
+            cursor.execute(query, (movie_key,))
+            connection.commit()
 
     def add_movie(self, movie):
         with dbapi2.connect(self.db_file) as connection:
@@ -94,9 +97,49 @@ class Database:
             cursor.execute(query, (movie.title, movie.year, movie_key))
             connection.commit()
 
-    def delete_movie(self, movie_key):
+    def get_categories(self):
+        with dbapi2.connect(self.db_file) as connection:
+            categories = []
+            cursor = connection.cursor()
+            query = 'SELECT * FROM Category'
+            cursor.execute(query)
+
+            for id_category, category, status in cursor:
+                if status:
+                    categories.append((id_category, category))
+
+            return categories
+
+    def add_category(self, category):
         with dbapi2.connect(self.db_file) as connection:
             cursor = connection.cursor()
-            query = 'DELETE FROM MOVIE WHERE (ID = ?)'
-            cursor.execute(query, (movie_key,))
+            cursor.execute('INSERT INTO Category(category) VALUES(?)', (category,))
             connection.commit()
+            return True
+
+    def delete_category(self, id_category):
+        with dbapi2.connect(self.db_file) as connection:
+            cursor = connection.cursor()
+            cursor.execute('DELETE FROM Category WHERE (id_category = ?)', (id_category,))
+            connection.commit()
+
+    def get_countries(self):
+        with dbapi2.connect(self.db_file) as connection:
+            countries = []
+
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM Country')
+
+            for id_country, country in cursor:
+                countries.append((id_country, country))
+
+            return countries
+
+    def report_sales(self):
+        with dbapi2.connect(self.db_file) as connection:
+            cursor = connection.cursor()
+            query = 'SELECT sale.id_sale, user.username, sale.total, payment.payment_method, sale.sale_date ' \
+                    'FROM sales sale, users user, payment_method payment ' \
+                    'WHERE sale.id_user = user.id_user AND sale.id_payment_method = payment.id_payment_method ' \
+                    'ORDER BY sale_date DESC'
+            cursor.execute(query)

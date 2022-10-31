@@ -26,19 +26,19 @@
                         <a class="button is-link" href="{{ url_for('movies_page') }}">List Movies</a>
                     </span>
 
-                    {% if current_user.is_admin %}
+                    {% if current_user.role == 'Admin' %}
                     <span class="navbar-item">
                         <a class="button is-link" href="{{ url_for('movie_add_page') }}">Add Movie</a>
                     </span>
                     {% endif %}
 
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.id_user %}
                     <span class="navbar-item">
                         <a class="button is-link" href="{{ url_for('profile') }}">Profile</a>
                     </span>
                     {% endif %}
 
-                    {% if current_user.is_authenticated and current_user.username == 'admin' %}
+                    {% if current_user.username == 'admin' %}
                     <span class="navbar-item">
                         <a class="button is-link" href="{{ url_for('manage_users') }}">Users</a>
                     </span>
@@ -65,7 +65,7 @@
                     {% endif %}
                 </span>
 
-                {% if current_user.is_admin and current_user.is_authenticated and current_user.username == 'admin' %}
+                {% if current_user.role == 'Admin' %}
                     <span class="navbar-item">
                         <a class="button is-link" href="{{ url_for('report_sales') }}">Report Sales</a>
                     </span>
