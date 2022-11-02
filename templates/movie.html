@@ -2,25 +2,57 @@
 {% block title %}Movie{% endblock title %}
 
 {% block content %}
-<h1 class="title">Movie</h1>
 
-<div class="box">
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        <header class="contenedor">
+    
+            <nav aria-label="main navigation">
+    
+                <div class="nav-principal">
+                    <div class="nav__principal--img">
+                        <a href="{{ url_for('home_page') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" style="fill: #F14668;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm.001 6c-.001 0-.001 0 0 0h-.465l-2.667-4H20l.001 4zM15.5 15 10 18v-6l5.5 3zm-.964-6-2.667-4h2.596l2.667 4h-2.596zm-2.404 0H9.536L6.869 5h2.596l2.667 4zM4 5h.465l2.667 4H4V5z"></path></svg>
+                        </a>
+                    </div>
+    
+                    <div class="btn-login">
+                        <div class="btn-flex">
+                            {% if not current_user.is_authenticated %}
+                            <a class="btn-registro" href="{{ url_for('login_page') }}">Iniciar sesion</a>
+                            <a class="btn-registro" href="{{ url_for('registro_page') }}">Registrar</a> <!--Boton de registro-->
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="about">
+                        <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
+                    </span>
+                </div>
+            </nav>
+    
+        </header>
+    </div>
+</div>
 
-    <div class="columns is-vcentered">
-        {% if movie.image %}
-        <img src="{{ url_for('static', filename='images/upload/movies/') }}{{ movie.image }}" width="200px">
-        {% endif %}
+<div class="box contenedor mt-6">
+
+    <div class="columns p-4 is-vcentered c-img">
+        <div class="img-movie">
+            {% if movie.image %}
+            <img src="{{ url_for('static', filename='images/upload/movies/') }}{{ movie.image }}" width="200px">
+            {% endif %}
+        </div>
 
         <table class="table ml-6 mr-6">
 
             <tr>
-                <th>Title:</th>
+                <th>Título:</th>
                 <td>{{ movie.title }}</td>
             </tr>
 
             {% if movie.year %}
             <tr>
-                <th>Year:</th>
+                <th>Año:</th>
                 <td>{{ movie.year }}</td>
             </tr>
             {% endif %}
@@ -31,17 +63,17 @@
             </tr>
 
             <tr>
-                <th>Country</th>
+                <th>País:</th>
                 <td>{{ movie.country }}</td>
             </tr>
 
             <tr>
-                <th>Price</th>
+                <th>Precio</th>
                 <td>${{ movie.price }} MXN</td>
             </tr>
 
             <tr>
-                <th>Status</th>
+                <th>Estado:</th>
 
                 {% if movie.stock > 0%}
                 <td class="has-text-primary">Avalible</td>
@@ -53,16 +85,16 @@
     </div>
 </div>
 
-<div class="field is-grouped">
+<div class="field centrar contenedor mb-6">
     {% if current_user.is_authenticated and current_user.is_admin %}
     <div class="control">
-        <a class="button is-primary is-outlined is-small" href="{{ request.path }}/edit">Edit</a>
+        <a class="button is-primary is-small" href="{{ request.path }}/edit">Editar</a>
     </div>
     {% endif %}
 
     {% if current_user.is_authenticated and movie.stock > 0 %}
     <div class="control">
-        <a class="button is-danger is-outlined is-small" href="{{ request.path }}/acquire">Acquire</a>
+        <a class="button is-danger is-small" href="{{ request.path }}/acquire">Adquirir</a>
     </div>
     {% endif %}
 </div>

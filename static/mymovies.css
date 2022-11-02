@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap');
 :root{
-    --ColorBg: #F4F5F7;
+    --ColorBg: #F4F4F9;
 }
 
 *{
@@ -17,7 +17,12 @@ body{
 h1{
     color: #fff !important;
 }
-
+.mt10{
+    margin-top: 10rem;
+}
+.mt4{
+    margin-top: 4rem;
+}
 .contenedor{
     max-width: 1200px;
     margin: 0 auto;
@@ -174,7 +179,22 @@ h1{
     justify-content: center;
     gap: 1rem;
 }
+.centrar{
+    display: flex;
+    flex-direction: row;
+    column-gap: 2rem;
+}
 @media (max-width: 425px) {
+    /* GLOBALES */
+    .c-img .img-movie{
+        text-align: center;
+    }
+    .centrar{
+        display: flex;
+        justify-content: center;
+        column-gap: 2rem;
+    }
+
     .nav-principal{
         margin-top: 1rem;
         display: flex;
@@ -208,7 +228,7 @@ h1{
 .hero.has-background {
     position: relative;
     overflow: hidden;
-    height: 200px;
+    height: 150px;
   }
 .hero-background {
     position: absolute;
