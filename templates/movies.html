@@ -8,34 +8,38 @@
 <form 
 method="POST" name="movie_list">
 
-<div class="mt4 mb-5">
-    <header class="contenedor">
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        <header class="contenedor">
     
-        <nav aria-label="main navigation">
+            <nav aria-label="main navigation">
     
-            <div class="nav-principal">
-                <div class="nav__principal--img">
-                    <a href="{{ url_for('home_page') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" style="fill: #F14668;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm.001 6c-.001 0-.001 0 0 0h-.465l-2.667-4H20l.001 4zM15.5 15 10 18v-6l5.5 3zm-.964-6-2.667-4h2.596l2.667 4h-2.596zm-2.404 0H9.536L6.869 5h2.596l2.667 4zM4 5h.465l2.667 4H4V5z"></path></svg>
-                    </a>
-                </div>
-    
-                <div class="btn-login">
-                    <div class="btn-flex">
-                        {% if not current_user.is_authenticated %}
-                        <a class="btn-registro" href="{{ url_for('login_page') }}">Iniciar sesion</a>
-                        <a class="btn-registro" href="{{ url_for('registro_page') }}">Registrar</a> <!--Boton de registro-->
-                        {% endif %}
+                <div class="nav-principal">
+                    <div class="nav__principal--img">
+                        <a href="{{ url_for('home_page') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" style="fill: #F14668;"><path d="M20 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm.001 6c-.001 0-.001 0 0 0h-.465l-2.667-4H20l.001 4zM15.5 15 10 18v-6l5.5 3zm-.964-6-2.667-4h2.596l2.667 4h-2.596zm-2.404 0H9.536L6.869 5h2.596l2.667 4zM4 5h.465l2.667 4H4V5z"></path></svg>
+                        </a>
                     </div>
-                </div>
-                <span class="about">
-                    <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
-                </span>
-            </div>
-        </nav>
     
-    </header>
+                    <div class="btn-login">
+                        <div class="btn-flex">
+                            {% if not current_user.is_authenticated %}
+                            <a class="btn-registro" href="{{ url_for('login_page') }}">Iniciar sesion</a>
+                            <a class="btn-registro" href="{{ url_for('registro_page') }}">Registrar</a> <!--Boton de registro-->
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="about">
+                        <a href="{{ url_for('about') }}" class="button is-rounded is-outlined is-small">i</a>
+                    </span>
+                </div>
+            </nav>
+    
+        </header>
+    </div>
 </div>
+
+<h2 class="contenedor control has-text-black">Películas</h2>
 <section class="contenedor sombra">
     
 
