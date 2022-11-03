@@ -2,47 +2,66 @@
 
 {% block content %}
 
-{% if empty %}
-<div class="box has-text-centered">
-    <h1>Todavia no has comprado ninguna película</h1>
-</div>
-{% endif %}
-
-{% for i in id %}
-    <div class="box shopping" onclick="ShowItems(this)" id="{{ i.id_sale }}">
-        
-        <h3 class="is-size-4 m-0 has-text-centered">
-            <span class="has-text-success-dark">Compra realizada:</span>
-            <span class="has-text-grey">{{ i.sale_date.strftime("%d/%m/%Y %H:%M %p") }}</span>
-            -
-            <span class="has-text-danger-dark">Total Gastado:</span> 
-            <span class="mr-6 has-text-grey">$ {{ i.total }} MXN</span>
-
-            <a class="button is-link has-background-success is-small" href="{{ url_for('ticket', id_sale=i.id_sale) }}" target="_blank">Ver Ticket</a>
-        </h3>
-
-
-        <div class="items">
-            <hr>
-            {% for item in detail %}
-                
-                {% if item.id_sale == i.id_sale %}
-                    <div class="is-inline-block">
-                        {% if item.image  %}
-                            <img style="margin-left: 50px;" src="{{ url_for('static', filename='images/upload/movies/') }}{{item.image}}" width="110px">
-                        {% else %}
-                            <img style="margin-left: 50px;" src="{{ url_for('static', filename='images/upload/movies/default.png') }}" width="110px">                            
-                        {% endif %}
-                        <br>
-                        <span style="margin-left: 50px;"><b>{{ item.title }}</b></span><br>
-                        <span style="margin-left: 50px;">${{item.precio_vendido}}  MXN</span>
-                    </div>                    
-                {% endif %}
-            
-            {% endfor %} 
-        </div>
-
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        {% include 'header.html' %}
     </div>
+</div>
+
+<h2 class="contenedor control has-text-black">Mis compras</h2>
+
+        {% if empty %}
+        <div class="box contenedor mb-6 has-text-centered">
+            <h3>Todavia no has comprado ninguna película</h3>
+            <div>
+                <a class="button is-danger" href="{{ url_for('movies_page') }}">Lista de Películas</a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% for i in id %}
+
+        <section class="contenedor">
+    
+            <div class="column is-7 is-offset-0">
+                <div class="box" onclick="ShowItems(this)" id="{{ i.id_sale }}">
+                    
+                    <h3 class="is-size-6 has-text-centereds">
+                        <span class="has-text-success-dark">Compra realizada:</span>
+                        <span class="has-text-grey">{{ i.sale_date.strftime("%d/%m/%Y %H:%M %p") }}</span>
+                        <br>
+                        <br>
+                        <span class="has-text-danger-dark">Total Gastado:</span> 
+                        <span class="mr-6 has-text-grey">${{ i.total }} MXN</span>
+                        <br>
+                        <br>
+                        <a class="button is-link is-success is-small" href="{{ url_for('ticket', id_sale=i.id_sale) }}" target="_blank">Ver Ticket</a>
+                        <input class="button is-small is-info" type="button" value="Detalles">
+                    </h3>
+
+                    <div class="items">
+                        <hr>
+                        {% for item in detail %}
+                            
+                            {% if item.id_sale == i.id_sale %}
+                                <div class="is-inline-block">
+                                    {% if item.image  %}
+                                        <img style="margin-left: 50px;" src="{{ url_for('static', filename='images/upload/movies/') }}{{item.image}}" width="110px">
+                                    {% else %}
+                                        <img style="margin-left: 50px;" src="{{ url_for('static', filename='images/upload/movies/default.png') }}" width="110px">                            
+                                    {% endif %}
+                                    <br>
+                                    <span style="margin-left: 50px;"><b>{{ item.title }}</b></span><br>
+                                    <span style="margin-left: 50px;">${{item.precio_vendido}}  MXN</span>
+                                </div>                    
+                            {% endif %}
+                        
+                        {% endfor %} 
+                    </div>
+
+                </div>
+            </div>
+        </section>
 {% endfor %}
 
 {% endblock content %}

@@ -44,6 +44,9 @@ h1{
 .btn-login{
     grid-column: 10/12;
 }
+.btn-agregar{
+    margin-left: 2rem;
+}
 .titulo-principal{
     margin-top: 18rem;
     background-color: rgb(0 0 0 / 0%);
@@ -106,9 +109,13 @@ h1{
     color: #F14668;
 }
 .card-img img{
-    width: 20rem;
-    height: 20rem;
+    width: 10rem;
+    height: 10rem;
     border-radius: 50%;
+}
+.caja-img{
+    /* border: 1px solid #000; */
+    /* text-align: center; */
 }
 .about{
     margin-left: 2rem;
@@ -150,7 +157,6 @@ h1{
 }
 .box-perfil{
     background-color: var(--ColorBg);
-    padding: 2rem 0;
 }
 .profile-picture {
     border-radius: 50%;
@@ -160,7 +166,6 @@ h1{
 }
 .caja-perfil{
     margin-top: 1rem;
-    width: 30rem;
     height:8rem;
 }
 .flex-perfil{
@@ -168,6 +173,7 @@ h1{
     column-gap: 2rem;
     margin-bottom: 2rem;
 }
+
 
 /* footer ************@hecho by tomas y virbes******************/
 .footer{
@@ -219,6 +225,10 @@ h1{
     .flex-perfil .profile-picture{
         margin: 0 auto
     }
+/* Mi carrito ************@hecho by tomas y virbes******************/
+    .contenedor-tabla{
+        overflow: scroll;
+}
     
 /* MENU ************@hecho by tomas y virbes******************/
 }
@@ -239,12 +249,6 @@ h1{
 }
 .hero-background.is-transparent {
     opacity: 0.6;
-}
-
-.shopping {
-    cursor: pointer;
-    margin-left: 100px;
-    margin-right: 100px;
 }
 
 .items {

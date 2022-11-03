@@ -3,33 +3,46 @@
 
 {% block content %}
 
-<div class="box">
-    <table class="table is-striped is-hoverable">
-        <thead>
-            <tr>
-                <th>Id Sale</th>
-                <th>Username</th>
-                <th>Total</th>
-                <th>Payment Method</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for report in reports %}
-            <tr class="is-clickable">
-                <td>{{ report.id_sale }}</td>
-                <td>{{ report.username }}</td>
-                <td>{{ report.total }}</td>
-                <td>{{ report.payment_method }}</td>
-                <td>{{ report.sale_date }}</td>
-
-                <div class="box items">GGG</div>
-            </tr>
-            {% endfor %}
-        </tbody>
-
-        <tfoot></tfoot>
-    </table>
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        {% include 'header.html' %}
+    </div>
 </div>
+
+<h2 class="contenedor control has-text-black">Informe de venta</h2>
+
+<section class="contenedor">
+    
+    <div class="column is-9 is-offset-0 mb-6">
+        <div class="box">
+            <table class="table is-striped is-hoverable">
+                <thead>
+                    <tr>
+                        <th>Venta de identificación</th>
+                        <th>Nombre de usuario</th>
+                        <th>Total</th>
+                        <th>Método de pago</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for report in reports %}
+                    <tr class="is-clickable">
+                        <td>{{ report.id_sale }}</td>
+                        <td>{{ report.username }}</td>
+                        <td>{{ report.total }}</td>
+                        <td>{{ report.payment_method }}</td>
+                        <td>{{ report.sale_date }}</td>
+
+                        <div class="box items">GGG</div>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 {% endblock content %}
