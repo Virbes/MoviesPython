@@ -92,60 +92,6 @@ def movie_page(movie_key):
 
 
 @login_required
-def movie_edit_page(movie_key):
-    movie = database.get_movie(movie_key)
-
-    if movie is None:
-        return render_template('page_404.html')
-
-    if not current_user.role == 'Admin':
-        return render_template('page_401.html')
-
-    form = MovieEditForm()
-
-    if form.validate_on_submit():
-        title = form.data['title'].strip()  # Quitar espacios restantes
-        year = form.data['year']
-        category = form.data['category']
-        country = form.data['country']
-        image = form.data['image']
-        stock = form.data['stock']
-        price = form.data['price']
-
-        if image:
-            image_name = title
-            date = datetime.now().strftime('%Y%m%d')
-            time = datetime.now().strftime('%H%M%S')
-            extension = pathlib.Path(image.filename).suffix
-            filename = image_name + date + time + extension
-
-            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            movie = Movie(title, year, category, country, filename, stock, price)
-
-            old_image = database.get_image(movie_key)
-            if old_image:
-                os.remove('static/images/upload/movies/' + old_image)  # borrar la imagen anterior
-        else:
-            movie = Movie(title, year, category, country, None, stock, price)
-
-        database.update_movie(movie_key, movie)
-
-        return redirect(url_for('movie_page', movie_key=movie_key))
-
-    form.category.choices.clear()
-    form.category.choices = database.get_categories()
-
-    form.title.data = movie.title
-    form.year.data = movie.year if movie.year else ''
-    form.category.data = movie.category
-    form.country.data = movie.country
-    form.stock.data = movie.stock
-    form.price.data = movie.price
-
-    return render_template('movie_edit.html', form=form)
-
-
-@login_required
 def movie_add_page():
     db = current_app.config['db']
 
@@ -153,12 +99,7 @@ def movie_add_page():
         return render_template('page_401.html')
 
     form = MovieEditForm()
-
-    if form.category.choices:
-        form.category.choices.clear()
-        form.category.choices = db.get_categories()
-    else:
-        form.category.choices = db.get_categories()
+    form.category.choices, form.country.choices = get_choices(form)
 
     if form.validate_on_submit():
         title = form.data['title']
@@ -182,7 +123,7 @@ def movie_add_page():
         else:
             movie = Movie(title, year, category, country, None, stock, price)
 
-        movie_key = database.add_movie(movie)
+        movie_key = db.add_movie(movie)
 
         return redirect(url_for('movie_page', movie_key=movie_key))
     else:
@@ -190,6 +131,61 @@ def movie_add_page():
             flash(error + ' - ' + str(form.errors[error][0]))
 
     return render_template('movie_edit.html', min_year=1887, max_year=datetime.now().year, form=form)
+
+
+@login_required
+def movie_edit_page(movie_key):
+    db = current_app.config['db']
+    movie = db.get_movie(movie_key)
+
+    if movie is None:
+        return render_template('page_404.html')
+
+    if not current_user.role == 'Admin':
+        return render_template('page_401.html')
+
+    form = MovieEditForm()
+    form.category.choices, form.country.choices = get_choices(form)
+
+    if form.validate_on_submit():
+        title = form.data['title'].strip()  # Quitar espacios restantes
+        year = form.data['year']
+        category = form.data['category']
+        country = form.data['country']
+        image = form.data['image']
+        stock = form.data['stock']
+        price = form.data['price']
+
+        if image:
+            image_name = title
+            date = datetime.now().strftime('%Y%m%d')
+            time = datetime.now().strftime('%H%M%S')
+            extension = pathlib.Path(image.filename).suffix
+            filename = image_name + date + time + extension
+            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+
+            movie = Movie(title, year, category, country, filename, stock, price)
+
+            old_image = db.get_image(movie_key)
+            if old_image:
+                url = 'static/images/upload/movies/' + old_image
+                os.remove(url)  # borrar la imagen anterior
+
+        else:
+            movie = Movie(title, year, category, country, None, stock, price)
+
+        db.update_movie(movie_key, movie)
+
+        return redirect(url_for('movie_page', movie_key=movie_key))
+
+    form.title.data = movie.title
+    form.year.data = movie.year
+    form.category.data = str(movie.category)
+    form.country.data = str(movie.country)
+    form.stock.data = movie.stock
+    form.price.data = movie.price
+
+    return render_template('movie_edit.html', form=form)
 
 
 @login_required
@@ -202,7 +198,7 @@ def categories():
     form = CategoryForm()
 
     if form.validate_on_submit():
-        category = form.data['category']
+        category = form.data['category'].strip()
         cat = db.add_category(category)
 
         if cat:
@@ -228,11 +224,23 @@ def delete_category(id_category):
     return redirect(url_for('categories'))
 
 
-def create_user():
-    if not current_user.is_admin:
+@login_required
+def profile():
+    return render_template('profile.html')
+
+
+@login_required
+def manage_users():
+    if not current_user.role == 'Admin':
         return render_template('page_401.html')
 
-    if not current_user.username == 'admin':
+    return render_template('manage_users.html')
+
+
+def create_user():
+    db = current_app.config['db']
+
+    if not current_user.role == 'Admin':
         return render_template('page_401.html')
 
     form = CreateUserForm()
@@ -262,7 +270,6 @@ def create_user():
         else:
             user = User(None, name, last_name, address, telephone if telephone else None, date_birth if telephone else None, role, None, username, hashed)
 
-        db = current_app.config['db']
         user_exists = db.get_user(username)
 
         if user_exists:
@@ -272,22 +279,6 @@ def create_user():
             return redirect(url_for('manage_users'))
 
     return render_template('user_edit.html', form=form)
-
-
-@login_required
-def manage_users():
-    if not current_user.role == 'Admin':
-        return render_template('page_401.html')
-
-    if not current_user.username == 'admin':
-        return render_template('page_401.html')
-
-    return render_template('manage_users.html')
-
-
-@login_required
-def profile():
-    return render_template('profile.html')
 
 
 @login_required
@@ -508,3 +499,21 @@ def valdiate_movie_form(form):
             form.data['year'] = y
 
     return len(form.errors) == 0
+
+
+def get_choices(form):
+    db = current_app.config['db']
+
+    if form.category.choices:
+        form.category.choices.clear()
+        form.category.choices = db.get_categories()
+    else:
+        form.category.choices = db.get_categories()
+
+    if form.country.choices:
+        form.country.choices.clear()
+        form.country.choices = db.get_countries()
+    else:
+        form.country.choices = db.get_countries()
+
+    return form.category.choices, form.country.choices

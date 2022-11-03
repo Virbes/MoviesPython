@@ -1,9 +1,9 @@
+from datetime import datetime
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, SelectField, DateTimeField, DecimalField
-from wtforms.validators import DataRequired, NumberRange, Optional
-from datetime import datetime
 from wtforms_components import IntegerField
+from wtforms.validators import DataRequired, NumberRange, Optional
+from wtforms import StringField, PasswordField, SelectField, DateTimeField
 
 
 class MovieEditForm(FlaskForm):

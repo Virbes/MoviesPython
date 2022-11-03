@@ -25,7 +25,6 @@ method="POST" name="movie_list">
                     <a href="{{ url_for('movie_page', movie_key=movie_key) }}">
                         {{ movie.title }}
                         <b>{% if movie.year %}({{ movie.year }}){% endif %}</b>
-                        <b>- {{ movie.image }}</b>
                     </a>
                 </td>
             </tr>
