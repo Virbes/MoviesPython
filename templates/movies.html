@@ -16,7 +16,7 @@ method="POST" name="movie_list">
             
             <tr>
                 <td>
-                    {% if current_user.is_admin %}
+                    {% if current_user.role == 'Admin' %}
                     <label class="checkbox">
                         <input type="checkbox" name="movie_keys" value="{{ movie_key }}">
                     </label>
@@ -34,7 +34,7 @@ method="POST" name="movie_list">
         </tbody>
     </table>
 
-    {% if current_user.is_admin %}
+    {% if current_user.role == 'Admin' %}
     <div class="field is-grouped">
         <div class="control">
             <button class="button is-danger is-small">Delete</button>

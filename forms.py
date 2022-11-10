@@ -1,17 +1,16 @@
+from datetime import datetime
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, SelectField, DateTimeField, DecimalField
-from wtforms.validators import DataRequired, NumberRange, Optional
-from datetime import datetime
 from wtforms_components import IntegerField
-from database import get_categories, get_countries
+from wtforms.validators import DataRequired, NumberRange, Optional
+from wtforms import StringField, PasswordField, SelectField, DateTimeField
 
 
 class MovieEditForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     year = IntegerField('Year', validators=[Optional(), NumberRange(min=1887, max=datetime.now().year)], default=1887)
-    category = SelectField('Category', choices=get_categories())
-    country = SelectField('Country', choices=get_countries())
+    category = SelectField('Category')
+    country = SelectField('Country')
     image = FileField('Image', validators=[Optional()])
     stock = IntegerField('Stock', validators=[DataRequired(), NumberRange(min=0, max=50)], default=1)
     price = IntegerField('Price', validators=[DataRequired(), NumberRange(min=0, max=1000)], default=1)

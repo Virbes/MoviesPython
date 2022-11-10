@@ -1,31 +1,37 @@
-from flask import Flask
-from flask_login import LoginManager
-
+import os
 import views
-from database import get_user
+
+from flask import Flask, current_app, render_template
+from databaseSQLite import Database
+from flask_login import LoginManager
 
 lm = LoginManager()
 
 
 @lm.user_loader
 def load_user(user_id):
-    return get_user(user_id)
+    db = current_app.config['db']
+    return db.get_user(user_id)
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('settings')
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('page_404.html')
+
     app.add_url_rule('/', view_func=views.home_page)
     app.add_url_rule('/login', view_func=views.login_page, methods=['GET', 'POST'])
     app.add_url_rule('/logout', view_func=views.logout_page)
     app.add_url_rule('/movies', view_func=views.movies_page, methods=['GET', 'POST'])
-    app.add_url_rule('/movie/<int:movie_key>/edit', view_func=views.movie_edit_page, methods=['GET', 'POST'])
     app.add_url_rule('/movie/<int:movie_key>', view_func=views.movie_page)
     app.add_url_rule('/new-movie', view_func=views.movie_add_page, methods=['GET', 'POST'])
-    app.add_url_rule('/profile', view_func=views.profile, methods=['GET', 'POST'])
+    app.add_url_rule('/movie/<int:movie_key>/edit', view_func=views.movie_edit_page, methods=['GET', 'POST'])
     app.add_url_rule('/categories', view_func=views.categories, methods=['GET', 'POST'])
     app.add_url_rule('/categories/delete/<int:id_category>', view_func=views.delete_category, methods=['GET', 'POST'])
+    app.add_url_rule('/profile', view_func=views.profile, methods=['GET', 'POST'])
     app.add_url_rule('/manage-users', view_func=views.manage_users, methods=['GET', 'POST'])
     app.add_url_rule('/new-user', view_func=views.create_user, methods=['GET', 'POST'])
     app.add_url_rule('/users-edit', view_func=views.users_edit, methods=['GET', 'POST'])
@@ -47,6 +53,12 @@ def create_app():
 
     lm.init_app(app)
     lm.login_view = 'login_page'
+
+    home_path = os.path.expanduser('movies')
+    path_db = 'C:/Users/Francisco Virbes/Documents/PycharmProjects/pythonProject'
+
+    db = Database(os.path.join(path_db, 'movies.sqlite'))
+    app.config['db'] = db
 
     return app
 
