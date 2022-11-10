@@ -476,31 +476,6 @@ def about():
     return render_template('about.html')
 
 
-def valdiate_movie_form(form):
-    form.data = {}
-    form.errors = {}
-
-    title = form.get('title', '').strip()
-    if len(title) == 0:
-        form.errors['title'] = 'Title can not be blank'
-    else:
-        form.data['title'] = title
-
-    year = form.get('year')
-    if not year:
-        form.data['year'] = None
-    elif not year.isdigit():
-        form.errors['year'] = 'Year must consist of digits only'
-    else:
-        y = int(year)
-        if (y < 1887) or (y > datetime.now().year):
-            form.errors['year'] = 'Year not in valid range'
-        else:
-            form.data['year'] = y
-
-    return len(form.errors) == 0
-
-
 def get_choices(form):
     db = current_app.config['db']
 
