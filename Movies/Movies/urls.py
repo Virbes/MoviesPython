@@ -1,28 +1,41 @@
-"""Movies URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from personas.views import detallePersona, nuevaPersona, testQuery
-from webapp.views import bienvenido
+from webapp.views import home_page, movies_page, movie_page, movie_add_page, \
+    movie_edit_page, categories, delete_category, profile, manage_users, create_user, users_edit, edit_profile, \
+    delete_users, add_to_cart, my_cart, delete_my_movie, payment, payment_cash, ticket, my_shopping, report_sales, \
+    about, delete_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', bienvenido, name='inicio'),
-    path('detalle_persona/<int:id>', detallePersona),
-    # path('nueva_persona', nuevaPersona)
-    path('nueva_persona', testQuery)
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    path('', home_page, name='inicio'),
+    # path('/login', login_page),
+    # path('/logout', logout_page),
+    path('/movies', movies_page, name='movies_page'),
+    path('/movie/<int:movie_key>', movie_page, name='movie_page'),
+    path('/new-movie', movie_add_page),
+    path('/movie/<int:movie_key>/edit', movie_edit_page),
+    path('/categories', categories, name='categories'),
+    path('/categories/delete/<int:id_category>', delete_category),
+    path('/profile', profile, name='profile'),
+    path('/manage-users', manage_users, name='manage_users'),
+    path('/new-user', create_user),
+    path('/users-edit', users_edit),
+    path('/users-edit/<username>', edit_profile),
+    path('/delete-users', delete_users),
+    path('/delete-user/<int:id_user>', delete_user),
+    path('/movie/<int:movie_key>/acquire', add_to_cart),
+    path('/my-cart', my_cart, name='my_cart'),
+    path('/delete/my-movie/<int:my_movie_key>', delete_my_movie),
+
+    path('/payment', payment),
+    path('/payment/cash', payment_cash),
+    path('/ticket/<int:id_sale>', ticket),
+
+    path('/my-shopping', my_shopping),
+    path('/report-sales', report_sales),
+
+    path('/about', about, name='about')
 ]

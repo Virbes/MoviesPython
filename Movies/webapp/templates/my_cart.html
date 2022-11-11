@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}{% block title %}My Movies{% endblock title %}
+
+{% block content %}
+
+{% if movies %}
+
+<div class="box ml-6 mr-6">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>img</th>
+                <th>Title</th>
+                <th>Acquisition Date</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for movie in movies %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if movie.image %}
+                    <img src="{{ url_for('static', filename='images/upload/movies/') }}{{movie.image}}" width="30px">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/upload/movies/default.png') }}" width="30px">
+                    {% endif %}
+                </td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.acquisition_date.strftime("%d/%m/%Y") }}</td>
+                <td>${{ movie.price }} MXN</td>
+                <td>
+                    <a class="button is-link is-danger is-small"
+                        href="{{ url_for('delete_my_movie', my_movie_key=movie.id_cart) }}"
+                        onclick="return confirm('Desea remover {{ movie.title }}')">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="4"><b>Total</b></td>
+                <td><b>${{ total }} MXN</b></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+<div class="column is-4 is-offset-4">
+    <form method="POST">
+        <span class="mr-4">
+            <button class="button is-link is-outlined is-danger"
+                onclick="return confirm('Are you sure you want to delete all movies?')">
+                Cancel all
+            </button>
+        </span>
+
+        <span class="ml-4">
+            <a class="button is-link is-outlined is-success" href="{{ url_for('payment') }}">Pay Now</a>
+        </span>
+    </form>
+</div>
+
+{% else %}
+<div class="box ml-6 mr-6">
+    <h3 class="subtitle has-text-centered ">Todavia no tienes péliculas</h3>
+</div>
+{% endif %}
+
+{% endblock content %}

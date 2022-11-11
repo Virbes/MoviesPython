@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'webapp',
-    'personas',
+    'webapp'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +124,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Settings [Flask] => Django
+WTF_CSRF_ENABLED = True
+UPLOAD_FOLDER = '../webapp/static/images/upload/movies'
+UPLOAD_FOLDER_PROFILE = '../webapp/static/images/upload/profile_picture'
+ADMIN_USERS = ['Admin']
+
+LOGIN_REDIRECT_URL = reverse_lazy('inicio')

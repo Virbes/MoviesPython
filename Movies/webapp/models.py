@@ -1,6 +1,17 @@
 from django.db import models
 
 
+class Movie:
+    def __init__(self, title, year, category, country, image, stock, price):
+        self.title = title
+        self.year = year
+        self.category = category
+        self.country = country
+        self.image = image
+        self.stock = stock
+        self.price = price
+
+
 class Domicilio(models.Model):
     calle = models.CharField(max_length=255)
     no_calle = models.IntegerField()
