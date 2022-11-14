@@ -22,7 +22,7 @@ method="POST" name="movie_list">
                     </label>
                     {% endif %}
 
-                    <a href="{{ url_for('movie_page', movie_key=movie_key) }}">
+                    <a href="{% url 'movie_page' movie_key %}">
                         {{ movie.title }}
                         <b>{% if movie.year %}({{ movie.year }}){% endif %}</b>
                     </a>

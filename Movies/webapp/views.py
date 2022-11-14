@@ -51,9 +51,7 @@ def movie_page(request, movie_key):
 
 # @login_required
 def movie_add_page(request):
-
     form = MovieEditForm()
-    form.category.choices, form.country.choices = get_choices(form)
 
     if request.method == 'POST':
         title = form.data['title']
@@ -81,13 +79,7 @@ def movie_add_page(request):
 
         return redirect('movie_page', movie_key=movie_key)
 
-    context = {
-        'min_year': 1887,
-        'max_year': datetime.now().year,
-        'form': form
-    }
-
-    return render(request, 'movie_edit.html', context)
+    return render(request, 'movie_edit.html', {'form': form})
 
 
 # @login_required
@@ -98,7 +90,6 @@ def movie_edit_page(request, movie_key):
         return render(request, 'page_404.html')
 
     form = MovieEditForm()
-    form.category.choices, form.country.choices = get_choices(form)
 
     if request.method == 'POST':
         title = form.data['title'].strip()  # Quitar espacios restantes
@@ -131,12 +122,12 @@ def movie_edit_page(request, movie_key):
 
         return redirect('movie_page', movie_key=movie_key)
 
-    form.title.data = movie.title
-    form.year.data = movie.year
-    form.category.data = str(movie.category)
-    form.country.data = str(movie.country)
-    form.stock.data = movie.stock
-    form.price.data = movie.price
+    form.fields['title'].initial = movie.title
+    form.fields['year'].initial = movie.year
+    form.fields['category'].initial = get_id('Category', 'id_category', movie.category)
+    form.fields['country'].initial = get_id('Country', 'id_country', movie.country)
+    form.fields['stock'].initial = movie.stock
+    form.fields['price'].initial = movie.price
 
     return render(request, 'movie_edit.html', {'form': form})
 
@@ -158,7 +149,7 @@ def categories(request):
 
 
 # @login_required
-def delete_category(id_category):
+def delete_category(request, id_category):
     delete_category_db(id_category)
 
     return redirect('categories')
@@ -388,19 +379,3 @@ def report_sales(request):
 
 def about(request):
     return render(request, 'about.html')
-
-
-def get_choices(form):
-    if form.category.choices:
-        form.category.choices.clear()
-        form.category.choices = get_categories()
-    else:
-        form.category.choices = get_categories()
-
-    if form.country.choices:
-        form.country.choices.clear()
-        form.country.choices = get_countries()
-    else:
-        form.country.choices = get_countries()
-
-    return form.category.choices, form.country.choices

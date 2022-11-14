@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>About</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bulma.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mymovies.css') }}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bulma.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mymovies.css' %}">
 </head>
 
 <body>
@@ -133,7 +134,7 @@
     <div class="container mb-6">
         <div class="has-text-centered">
             <a class="button is-primary mr-4" onclick="return window.history.back()">Go Back</a>
-            <a class="button is-primary" href="{{ url_for('home_page') }}">Home Page</a>
+            <a class="button is-primary" href="{% url 'inicio' %}">Home Page</a>
         </div>
     </div>
 

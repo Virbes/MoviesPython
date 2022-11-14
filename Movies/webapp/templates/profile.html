@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block title %}My Profile{% endblock title %}
-
+{% load static %}
 {% block content %}
 
 <section class="hero">
@@ -10,9 +10,9 @@
 
             <div class="profile-picture">
                 {% if current_user.image %}
-                <img src="{{ url_for('static', filename='images/upload/profile_picture/') }}{{ current_user.image }}">
+                <img src="{% static 'images/upload/profile_picture/' %}{{ current_user.image }}">
                 {% else %}
-                <img src="{{ url_for('static', filename='images/upload/profile_picture/default.png') }}">
+                <img src="{% static 'images/upload/profile_picture/default.png' %}">
                 {% endif %}
             </div>
 

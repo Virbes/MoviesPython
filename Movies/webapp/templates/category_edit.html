@@ -13,7 +13,7 @@
 
                 <div class="field is-grouped">
                     <p class="control is-expanded">
-                        {{ form.category(class="input", placeholder="Add a category") }}
+                        {{ form.category }}
                     </p>
 
                     <div class="control">
@@ -48,7 +48,7 @@
 
                                 <div class="control">
                                     <a onclick="return confirm('do you really want to delete {{ category }}?')"
-                                        href="{{ url_for('delete_category', id_category=id) }}"
+                                        href="{% url 'delete_category' id %}"
                                         class="button is-danger is-small is-outlined">
                                         <!--Text-->Eliminar
                                         <!--Text-->

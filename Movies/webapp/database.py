@@ -20,7 +20,7 @@ def get_movie(movie_key):
     with connection.cursor() as cursor:
         query = 'SELECT m.id_movie, m.Title, m.Year, ca.Category, co.Country, m.Image, m.Stock, m.Price ' \
                 'FROM Movies m, Category ca, Country co ' \
-                'WHERE m.Category = ca.id_category AND m.Country= co.id_country AND id_movie = ?'
+                'WHERE m.Category = ca.id_category AND m.Country= co.id_country AND id_movie = %s'
         cursor.execute(query, (movie_key,))
 
         data = cursor.fetchone()
@@ -30,6 +30,15 @@ def get_movie(movie_key):
             return Movie(title, year, category, country, image, stock, price)
 
         return None
+
+
+def get_id(table, column, args):
+    with connection.cursor() as cursor:
+        query = 'SELECT ' + column + ' FROM ' + table + ' WHERE ' + table + ' LIKE "' + args + '"'
+        cursor.execute(query)
+        data = cursor.fetchone()
+
+        return data
 
 
 def get_image(id_movie):
@@ -185,7 +194,7 @@ def add_category(category):
 # so that there are no problems with records that depend on some -[CATEGORY]-.
 def delete_category_db(id_category):
     with connection.cursor() as cursor:
-        cursor.execute('UPDATE Category SET Status = ? WHERE id_category = ?', (0, id_category))
+        cursor.execute('UPDATE Category SET Status = %s WHERE id_category = %s', (0, id_category))
         connection.commit()
 
 
