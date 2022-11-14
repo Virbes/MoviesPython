@@ -1,42 +1,56 @@
 {% extends 'layout.html' %}{% block title %}Acquire {{ movie.title }}{% endblock title %}
 
 {% block content %}
-<h1 class="title ml-6">Acquire a Movie</h1>
 
-<div class="box ml-6 mr-6">
-    <div class="columns is-vcentered">
-
-        {% if movie.image %}
-        <img src="{{ url_for('static', filename='images/upload/movies/') }}{{ movie.image }}" width="100px">
-        {% endif %}
-
-        <table class="ml-6 mr-6">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Year</th>
-                    <th>Category</th>
-                    <th>Country</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ movie.title }}</td>
-                    <td>{{ movie.year }}</td>
-                    <td>{{ movie.category }}</td>
-                    <td>{{ movie.country }}</td>
-                    <td>${{ movie.price }} MXN</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        {% include 'header.html' %}
     </div>
 </div>
 
-<div class="ml-6">
-    <form method="POST">
-        <a class="button is-danger mr-3" onclick="return window.history.back()">Cancel</a>
-        <button class="button is-success" onclick="return confirm('Are you sure you want to add {{ movie.title }} to the cart?')">Add to cart</button>
-    </form>
+<h2 class="contenedor control has-text-black">Adquirir película</h2>
+
+<section class="contenedor">
+    
+    <div class="column is-7 is-offset-0 mb-6"> 
+        <div class="box">
+            <div class="columns is-vcentered">
+
+                {% if movie.image %}
+                <img src="{{ url_for('static', filename='images/upload/movies/') }}{{ movie.image }}" width="100px">
+                {% endif %}
+
+                <div class="contenedor-tabla">
+                    <table class="ml-6 mr-6">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Año</th>
+                                <th>Categoría</th>
+                                <th>País</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ movie.title }}</td>
+                                <td>{{ movie.year }}</td>
+                                <td>{{ movie.category }}</td>
+                                <td>{{ movie.country }}</td>
+                                <td>${{ movie.price }} MXN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <form method="POST">
+                <a class="button is-danger mr-3" onclick="return window.history.back()">Cancel</a>
+                <button class="button is-success" onclick="return confirm('¿Estás seguro que quieres agregar {{ movie.title }} al carrito?')">Agregar al carrito</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock content %}

@@ -9,25 +9,20 @@
 </head>
 
 <body>
-    <section class="section is-medium">
-        <div class="container">
+    <section class="contenedor section is-medium">
+        <div class="">
 
             <div class="has-text-centered">
-                <h1 class="title has-text-danger is-size-1">401 Not Authorized</h1>
-                <p class="subtitle mt-1 is-size-4">Sorry, Your request could not be processed.</p>
+                <h2 class="title has-text-danger is-size-1">401 No autorizado</h2>
+                <p class="subtitle mt-1 is-size-4">Lo sentimos, su solicitud no pudo ser procesada.</p>
 
-                <a onclick="return window.history.back()" class="button is-primary mr-4 mt-4">Go Back</a>
+                <a onclick="return window.history.back()" class="button is-primary mr-4 mt-4">Volver</a>
                 <a href="{{ url_for('home_page') }}" class="button is-primary ml-4 mt-4">Home Page</a>
             </div>
 
         </div>
     </section>
-
-    <footer class="footer">
-        <div class="content">
-            <small>&copy; 2015 - 2018, Kilgore Trout</small>
-        </div>
-    </footer>
+    {% include 'footer.html' %}
 </body>
 
 </html>

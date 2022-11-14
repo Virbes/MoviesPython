@@ -2,13 +2,19 @@
 {% block title %}Create User{% endblock title %}
 
 {% block content %}
-<section class="hero">
-    <div class="hero-body pt-0 pb-0">
-        <div class="container">
-            <div class="column is-4 is-offset-4">
 
-                <h1 class="has-text-centered">Edit users</h1>
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        {% include 'header.html' %}
+    </div>
+</div>
 
+    <h2 class="contenedor control has-text-black">Crear usuario</h2>
+
+<section>
+
+        <div class="contenedor">
+            <div class="column is-7 is-offset-0"> 
 
                 <div class="box">
                     <form action="" method="POST" name="create_user" enctype="multipart/form-data">
@@ -79,12 +85,10 @@
                             </div>
                         </div>
 
-                        <button class="button is-block is-info is-medium is-fullwidth">Save</button>
-
+                        <button class="button is-block is-info is-medium is-fullwidth">Guardar</button>
                     </form>
                 </div>
-            </div>
+             </div>
         </div>
-    </div>
 </section>
 {% endblock content %}

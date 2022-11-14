@@ -1,15 +1,34 @@
 {% extends 'layout.html' %}
 {% block title %}Home{% endblock title %}
-
 {% block content %}
+{% load static %}
 <section class="hero">
+
     <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">My movie collection</h1>
-            <p class="subtitle">Have a nice {{ day }}</p>
-            <p>{{image}}</p>
-            {{current_user.name}}
+
+        {% include 'header.html' %}
+
+        <div class="has-text-centered titulo-principal">
+
+            {% if not current_user.is_authenticated %}
+                 <h1 class="title">MI COLECCIÓN DE PELÍCULAS</h1>
+            {% endif %}
+
+            <div>
+                {% if current_user.is_authenticated %}
+                <h1 class="title">HOLA {{ current_user.username }}</h1>
+                {% endif %}
+            </div>
+            
+            <p class="subtitle">Que tenga un buen {{ day }}</p>
+
+            <div>
+                <a class="button is-danger" href="{% url 'movies_page' %}">Lista de Películas</a>
+            </div>
         </div>
+
     </div>
+
 </section>
+<!-- {% include 'footer.html' %} -->
 {% endblock content %}

@@ -4,13 +4,13 @@
 
 <section class="hero">
     <div class="hero-body">
-        <div class="container">
+        <div class="container mt10">
 
             {% if success %}
 
             <div class="has-text-centered is-size-4">
                 <h3 class="has-text-success">¡Pago realizado satisfactoriamente!</h3>
-                <h4 class="">Total de cambio: ${{ total }}.00 MXN</h4>
+                <h4 class="has-text-white">Total de cambio: ${{ total }}.00 MXN</h4>
                 <a href="{{ url_for('home_page') }}" class="button is-success ml-4 mt-4">Home Page</a>
             </div>
 

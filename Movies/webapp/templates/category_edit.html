@@ -2,64 +2,72 @@
 
 {% block content %}
 
-<section class="hero">
-    <div class="container">
+<div class="hero has-background has-text-centered">
+    <div class="hero-body">
+        {% include 'header.html' %}
+    </div>
+</div>
 
-        <h3 class="title has-text-grey has-text-centered">Category</h3>
+<h2 class="contenedor control has-text-black">Agregar categoría</h2>
 
-        <div class="box">
-            <form method="POST" name="login">
-                {{ form.csrf_token }}
+<section>
+    <div class="contenedor">
+        <div class="column is-7 is-offset-0"> 
 
-                <div class="field is-grouped">
-                    <p class="control is-expanded">
-                        {{ form.category }}
-                    </p>
+            <div class="box mb-6">
+                <form method="POST" name="login">
+                    {{ form.csrf_token }}
 
-                    <div class="control">
-                        <div class="button is-info">
-                            <button class="button is-block is-info">Add</button>
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            {{ form.category(class="input", placeholder="Escriba categoría") }}
+                        </p>
+
+                        <div class="control">
+                            <div class="button is-info">
+                                <button class="button is-block is-info">Agregar</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
-            <hr>
-            <!--  
-            <form method="POST">
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button class="button is-danger is-small">Delete</button>
+                <hr>
+                <!--  
+                <form method="POST">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-danger is-small">Delete</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-            -->
-            <table>
-                <tbody>
-                    {% for id, category in cat %}
-                    <tr>
+                </form>
+                -->
+                <table>
+                    <tbody>
+                        {% for id, category in cat %}
+                        <tr>
 
-                        <td>
-                            <div class="field is-grouped">
+                            <td>
+                                <div class="field is-grouped">
 
-                                <p class="control is-expanded">
-                                    <span class="ml-3 is-size-5">{{ category }}</span>
-                                </p>
+                                    <p class="control is-expanded">
+                                        <span class="ml-3 is-size-5">{{ category }}</span>
+                                    </p>
 
-                                <div class="control">
-                                    <a onclick="return confirm('do you really want to delete {{ category }}?')"
-                                        href="{% url 'delete_category' id %}"
-                                        class="button is-danger is-small is-outlined">
-                                        <!--Text-->Eliminar
-                                        <!--Text-->
-                                    </a>
+                                    <div class="control">
+                                        <a onclick="return confirm('do you really want to delete {{ category }}?')"
+                                            href="{{ url_for('delete_category', id_category=id) }}"
+                                            class="button is-danger is-small is-outlined">
+                                            <!--Text-->Eliminar
+                                            <!--Text-->
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>

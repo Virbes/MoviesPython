@@ -14,93 +14,14 @@
 </head>
 
 <body>
-
-    <header>
-        <nav class="navbar" aria-label="main navigation">
-            <div class="navbar-start">
-                <div class="navbar-brand">
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{% url 'inicio' %}">Home</a>
-                    </span>
-
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{% url 'movies_page' %}">List Movies</a>
-                    </span>
-
-                    {% if current_user.role == 'Admin' %}
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{% url 'movie_add_page' %}">Add Movie</a>
-                    </span>
-                    {% endif %}
-
-                    {% if current_user.id_user %}
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{{ url 'profile' %}">Profile</a>
-                    </span>
-                    {% endif %}
-
-                    {% if current_user.username == 'admin' %}
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{{ url 'manage_users' %}">Users</a>
-                    </span>
-                    {% endif %}
-
-                    <span class="navbar-item">
-                        {% if not current_user.is_authenticated %}
-                        <a class="button is-link" href="{% url 'inicio' %}">Log in</a>
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <a class="button is-link" href="{% url 'my_cart' %}">My Cart</a>
-                    {% endif %}
-                </span>
-
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <a class="button is-link" href="{% url 'my_shopping' %}">My Shopping</a>
-                    {% endif %}
-                </span>
-
-                {% if current_user.role == 'Admin' %}
-                    <span class="navbar-item">
-                        <a class="button is-link" href="{% url 'report_sales' %}">Report Sales</a>
-                    </span>
-                {% endif %}
-
-                <span class="navbar-item">
-                    {% if current_user.is_authenticated %}
-                    <p class="mr-2 is-size-4">{{ current_user.username }}</p>
-                    <a href="{% url 'logout_page' }}" class="button is-danger is-link">Log out</a>
-                    {% endif %}
-                </span>
-
-                <span class="navbar-item">
-                    <a href="{% url 'about' %}" class="button is-rounded is-outlined is-small">i</a>
-                </span>
-            </div>
-
-    </header>
-
     <main>
-        <section class="section">
+        <section class="sectionn">
             <div class="content">
                 {% block content %}{% endblock content %}
             </div>
         </section>
     </main>
-
-
-    <footer class="footer">
-        <div class="content">
-            <small>&copy; 2015 - 2018, Kilgore Trout</small>
-        </div>
-    </footer>
-
+    {% include 'footer.html' %}
 </body>
 
 </html>

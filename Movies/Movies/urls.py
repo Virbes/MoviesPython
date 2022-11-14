@@ -11,8 +11,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('', home_page, name='inicio'),
-    # path('/login', login_page),
-    # path('/logout', logout_page),
     path('movies/', movies_page, name='movies_page'),
     path('movie/<int:movie_key>/', movie_page, name='movie_page'),
     path('new-movie', movie_add_page),

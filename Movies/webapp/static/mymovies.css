@@ -1,26 +1,244 @@
-h1 {
-    color: #e9601a !important;
+@import url('https://fonts.googleapis.com/css2?family=Krub:wght@400;500;600;700&display=swap');
+:root{
+    --ColorBg: #F4F4F9;
 }
 
-footer {
-    text-align: center;
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    background-color: var(--ColorBg);
+}
+body{
+    font-family: 'Krub', sans-serif;
+    background-color: var(--ColorBg);
+}
+h1{
+    color: #fff !important;
+}
+.mt10{
+    margin-top: 10rem;
+}
+.mt4{
+    margin-top: 4rem;
+}
+.contenedor{
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Pagina principal ************@hecho by tomas y virbes*******************/
+.nav-principal{
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+}
+.nav-dentro{
+    margin-top: -60px;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+.btn-login{
+    grid-column: 10/12;
+}
+.btn-agregar{
+    margin-left: 2rem;
+}
+.titulo-principal{
+    margin-top: 18rem;
+    background-color: rgb(0 0 0 / 0%);
+}
+.nav__principal--img{
+    width: 5rem;
+    margin-top: -20px;
+}
+
+.btn-registro{
+    color: #ccc;
+    font-size: 1rem;
+}
+.btn-flex{
+    display: flex;
+    gap: 1rem;
+} 
+.hero{
+    background-image: url('../static/images/inicio/tyson-moultrie-BQTHOGNHo08-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+.hero-body{
+    background-color: rgb(0 0 0 / 70%);
+    font-size: 1.3rem;
+}
+.hero-body p{
+    color: white;
+}
+.hero-body nav{
+    margin-top: 0;
+    padding: 0;
+}
+.nav-dentro div{
+    border-radius: 5px;
+    padding: 0 5px;
+}
+.nav-dentro div:hover {
+    color: #000;
+    background-color: #ffc107;
+    font-weight: 700;
+
+}
+
+/* LOGIN ************@hecho by tomas y virbes******************/
+.contenedor-perfil{
+    margin-top: 5rem;
+}
+
+/* about ************@hecho by tomas y virbes*******************/
+.texto h3 span{
+    font-weight: 700;
+}
+.marca{
+    color: #3298DC;
+}
+.marca span{
+    color: #F14668;
+}
+.card-img img{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+}
+.caja-img{
+    /* border: 1px solid #000; */
+    /* text-align: center; */
+}
+.about{
+    margin-left: 2rem;
+    margin-top: -0.5rem;
+}
+
+/* LISTA DE PELICULAS ************@hecho by tomas y virbes******************/
+.list-movie{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 3rem;
+}
+.list-caja{
+    width: 10rem;
+    height: 15rem;
+    margin: 0 auto;
+}
+.list-caja img{
+    border-radius: 5px;
+    transition: .5s ease-in-out;
+
+}
+.list-caja img:hover{
+    transform:scale(1.1);
+}
+.sombra{
+    box-shadow: 10px 5px 15px 0px rgba(112,112,112,0.28);
+    box-shadow: 10px 5px 15px 0px rgba(112,112,112,0.28);
+    box-shadow: 10px 5px 15px 0px rgba(112,112,112,0.28);
+    background-color: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* PERFIL ************@hecho by tomas y virbes******************/
+.perfil-titulo{
+    margin-top: 2rem;
+}
+.box-perfil{
+    background-color: var(--ColorBg);
+}
 .profile-picture {
-    border-radius: 999px;
-
-    width: 300px;
-    height: 300px;
-    overflow: hidden;
-    margin-bottom: 20px;
-
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
     border: 3px solid #E5E5E5;
 }
+.caja-perfil{
+    margin-top: 1rem;
+    height:8rem;
+}
+.flex-perfil{
+    display: flex;
+    column-gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+/* footer ************@hecho by tomas y virbes******************/
+.footer{
+    text-align: center;
+    background-color: black;
+}
+.footer-img{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.centrar{
+    display: flex;
+    flex-direction: row;
+    column-gap: 2rem;
+}
+@media (max-width: 425px) {
+    /* GLOBALES */
+    .c-img .img-movie{
+        text-align: center;
+    }
+    .centrar{
+        display: flex;
+        justify-content: center;
+        column-gap: 2rem;
+    }
+
+    .nav-principal{
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-around;
+    }
+    .list-movie{
+        display: flex;
+        flex-direction: column;
+    }
+    .sombra{
+        width: 90%;
+    }
+    .control{
+        text-align: center;
+    }
+/* PERFIL ************@hecho by tomas y virbes******************/
+    .flex-perfil{
+        flex-direction: column;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    .flex-perfil .profile-picture{
+        margin: 0 auto
+    }
+/* Mi carrito ************@hecho by tomas y virbes******************/
+    .contenedor-tabla{
+        overflow: scroll;
+}
+    
+/* MENU ************@hecho by tomas y virbes******************/
+}
+
+
 
 .hero.has-background {
     position: relative;
     overflow: hidden;
-    height: 200px;
+    height: 150px;
   }
 .hero-background {
     position: absolute;
@@ -31,12 +249,6 @@ footer {
 }
 .hero-background.is-transparent {
     opacity: 0.6;
-}
-
-.shopping {
-    cursor: pointer;
-    margin-left: 100px;
-    margin-right: 100px;
 }
 
 .items {
