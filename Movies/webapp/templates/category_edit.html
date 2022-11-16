@@ -15,12 +15,12 @@
         <div class="column is-7 is-offset-0"> 
 
             <div class="box mb-6">
-                <form method="POST" name="login">
-                    {{ form.csrf_token }}
+                <form method="POST">
+                    {% csrf_token %}
 
                     <div class="field is-grouped">
                         <p class="control is-expanded">
-                            {{ form.category(class="input", placeholder="Escriba categoría") }}
+                            {{ form.categoria }}
                         </p>
 
                         <div class="control">
@@ -55,10 +55,9 @@
 
                                     <div class="control">
                                         <a onclick="return confirm('do you really want to delete {{ category }}?')"
-                                            href="{{ url_for('delete_category', id_category=id) }}"
+                                            href="{% url 'delete_category' id %}"
                                             class="button is-danger is-small is-outlined">
-                                            <!--Text-->Eliminar
-                                            <!--Text-->
+                                            <!--Text-->Eliminar<!--Text-->
                                         </a>
                                     </div>
                                 </div>

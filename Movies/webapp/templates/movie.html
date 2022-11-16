@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block title %}Movie{% endblock title %}
-
+{% load static %}
 {% block content %}
 
 <div class="hero has-background has-text-centered">
@@ -15,7 +15,7 @@
     <div class="columns p-4 is-vcentered c-img">
         <div class="img-movie">
             {% if movie.image %}
-            <img src="{{ url_for('static', filename='images/upload/movies/') }}{{ movie.image }}" width="200px">
+            <img src="{% static 'images/upload/movies/' %}{{ movie.image }}" width="200px">
             {% endif %}
         </div>
 

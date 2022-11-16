@@ -1,5 +1,4 @@
 from random import randrange
-from webapp.models import Movie
 from django.db import connection
 
 
@@ -11,7 +10,7 @@ def get_movies():
         cursor.execute(query)
 
         for _id, title, year, image in cursor:
-            movies.append((_id, Movie(title, year, '', '', image, 0, 0)))
+            movies.append((_id, (title, year, '', '', image, 0, 0)))
 
     return movies
 
@@ -27,7 +26,7 @@ def get_movie(movie_key):
 
         if data is not None:
             _id, title, year, category, country, image, stock, price = data
-            return Movie(title, year, category, country, image, stock, price)
+            return (title, year, category, country, image, stock, price)
 
         return None
 
@@ -52,7 +51,7 @@ def get_image(id_movie):
 
 def get_user(username):
     with connection.cursor() as cursor:
-        query = 'SELECT * FROM Users WHERE (Username LIKE ?)'
+        query = 'SELECT * FROM Users WHERE Username LIKE %s'
         cursor.execute(query, (username,))
 
         user = cursor.fetchone()
@@ -82,9 +81,8 @@ def get_users():
 def create_user_db(user):
     with connection.cursor() as cursor:
         query = 'INSERT INTO Users(Name, LastName, Address, Phone, DateBirth, Role, Image, Username, Password) ' \
-                'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-        cursor.execute(query, (user.name, user.last_name, user.address, user.phone, user.date_birth, user.role,
-                               user.image, user.username, user.password))
+                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+        cursor.execute(query, (user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8]))
 
         connection.commit()
 
@@ -172,20 +170,20 @@ def get_categories():
 
 def add_category(category):
     with connection.cursor() as cursor:
-        cursor.execute('SELECT * FROM Category WHERE category LIKE ?', (category,))
+        cursor.execute('SELECT * FROM Category WHERE category LIKE %s', (category,))
         cat = cursor.fetchone()
 
         if cat:
             # Update Status Avalible
             if cat[2] == 0:
-                cursor.execute('UPDATE Category SET Status = 1 WHERE id_category = ?', (cat[0],))
+                cursor.execute('UPDATE Category SET Status = 1 WHERE id_category = %s', (cat[0],))
                 connection.commit()
                 return True
 
             # Already Exists Category
             return False
         else:
-            cursor.execute('INSERT INTO Category(category) VALUES(?)', (category,))
+            cursor.execute('INSERT INTO Category(category) VALUES(%s)', (category,))
             connection.commit()
             return True
 

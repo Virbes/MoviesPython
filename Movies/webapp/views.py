@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from passlib.hash import pbkdf2_sha256 as hasher
 from django.contrib.auth.decorators import login_required
 from webapp.forms import MovieEditForm, CategoryForm, CreateUserForm, PaymentCash
-from webapp.models import Movie
+from webapp.models import GeeksModel
 
 
 def home_page(request):
@@ -71,9 +71,9 @@ def movie_add_page(request):
 
             image.save(os.path.join(settings.UPLOAD_FOLDER, filename))
 
-            movie = Movie(title, year, category, country, filename, stock, price)
+            movie = (title, year, category, country, filename, stock, price)
         else:
-            movie = Movie(title, year, category, country, None, stock, price)
+            movie = (title, year, category, country, None, stock, price)
 
         movie_key = add_movie(movie)
 
@@ -108,7 +108,7 @@ def movie_edit_page(request, movie_key):
             filename = image_name + date + time + extension
             image.save(os.path.join(settings.UPLOAD_FOLDER, filename))
 
-            movie = Movie(title, year, category, country, filename, stock, price)
+            movie = (title, year, category, country, filename, stock, price)
 
             old_image = get_image(movie_key)
             if old_image:
@@ -116,7 +116,7 @@ def movie_edit_page(request, movie_key):
                 os.remove(url)  # borrar la imagen anterior
 
         else:
-            movie = Movie(title, year, category, country, None, stock, price)
+            movie = (title, year, category, country, None, stock, price)
 
         update_movie(movie_key, movie)
 
@@ -134,16 +134,16 @@ def movie_edit_page(request, movie_key):
 
 # @login_required
 def categories(request):
-    form = CategoryForm()
-
     if request.method == 'POST':
-        category = form.data['category'].strip()
+        form = CategoryForm(request.POST)
+        category = form.data['categoria']
         cat = add_category(category)
 
         if cat:
             return redirect('categories')
 
     cat = get_categories()
+    form = CategoryForm()
 
     return render(request, 'category_edit.html', {'form': form, 'cat': cat})
 
@@ -225,6 +225,48 @@ def delete_user(id_user):
     return redirect('manage_users')
 
 
+def registro(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            username = form.cleaned_data['usuario']  # Quitar espacios restantes
+            password_hashed = hasher.hash(form.cleaned_data['password'])  # Contraseña enmascarada
+            user_exists = get_user(username)
+
+            if user_exists:
+                print('Nombre de usuario no disponible')
+                return redirect('inicio')
+
+            name = form.data['nombre']  # Quitar espacios restantes
+            last_name = form.data['apellidos']  # Quitar espacios restantes
+            address = form.data['direccion']  # Quitar espacios restantes
+            telephone = form.data['telefono']
+            date_birth = form.data['fec_nac']
+            role = 'Normal user'
+            image = form.cleaned_data.get('imagen')
+
+            if image:
+                obj = GeeksModel.objects.create(title=username, img=image)
+                obj.save()
+                user = (name, last_name, address, telephone, date_birth, role, str(image), username, password_hashed)
+            else:
+                user = (name, last_name, address, telephone, date_birth, role, None, username, password_hashed)
+
+            create_user_db(user)
+            return redirect('inicio')
+
+        else:
+            print(form)
+
+    form = CreateUserForm()
+    return render(request, 'user_edit.html', {'form': form})
+
+
+def login(request):
+    return render(request, 'login.html')
+
+
 # @login_required
 def edit_profile(request, username):
     form = CreateUserForm()
@@ -240,7 +282,7 @@ def edit_profile(request, username):
         telephone = form.data['phoneNumber']
         date_birth = form.data['dateBirth']
         role = form.data['role']
-        image = form.data['image']
+        image = form.data['imagen']
 
         if image:
             image_name = username

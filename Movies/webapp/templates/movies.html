@@ -18,27 +18,23 @@ method="POST" name="movie_list">
 
 <section class="contenedor sombra">
     
-
         <div class="list-movie">
             {% for movie_key, movie in movies %}
-            {% if not movie_key in my_movies_keys %}
                 <div class="list-caja">
-                    <a href="{{ url_for('movie_page', movie_key=movie_key) }}">
-                        <img src="../static/images/poster.webp" alt="">
+                    <a href="{% url 'movie_page' movie_key %}">
+                        {% if movie.image == none %}
+                        <img src="../static/images/upload/movies/default.png">
+                        {% else %}
+                        <img src="../static/images/upload/movies/{{ movie.image }}">
+                        {% endif %}
                     </a>     
                     <div class="mt-2">
-                        {% if current_user.is_admin %}
-                            <label class="checkbox">
-                                <input type="checkbox" name="movie_keys" value="{{ movie_key }}">
-                            </label>
-                        {% endif %}
-                        <a href="{{ url_for('movie_page', movie_key=movie_key) }}">
+                        <a href="{% url 'movie_page' movie_key %}">
                             {{ movie.title }}
                             <b>{% if movie.year %}({{ movie.year }}){% endif %}</b>
                         </a>
                     </div>
                 </div>
-            {% endif %}
             {% endfor %}
         </div>
         
