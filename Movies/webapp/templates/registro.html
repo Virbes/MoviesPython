@@ -20,7 +20,7 @@
                     <div class="btn-login">
                         <div class="btn-flex">
                             {% if not current_user.is_authenticated %}  
-                            <a class="btn-registro" href="{% url 'login_page' %}">Iniciar sesion</a> <!--Boton de registro-->
+                            <a class="btn-registro" href="{% url 'login' %}">Iniciar sesion</a> <!--Boton de registro-->
                             {% endif %}
                         </div>
                     </div>
@@ -31,21 +31,20 @@
             </nav>
         </header>
     
-        <div class=" contenedor-perfil">
+        <div>
             <div class="container has-text-centered">
                 <div class="column is-4 is-offset-4">
     
                     <h3 class="title has-text-white">Registrar</h3>
     
                     <div class="box">
-                        <form action="" method="POST" >
+                        <form method="POST" id="form-registro" enctype="multipart/form-data">
                             {% csrf_token %}
 
-                            {% for field in form %}
+                            {% for field in form_login %}
                             <div class="field">
                                 {% if field.label != 'Role' %}
-                                <label for="id_{{ field.label|lower }}" class="label">{{ field.label }}</label>
-                                <div class="control">{{ field }}</div>
+                                <div class="control xd">{{ field }}</div>
                                 {% endif %}
     
                                 {% for error in field.errors %}
@@ -53,10 +52,26 @@
                                 {% endfor %}
                             </div>
                             {% endfor %}
+
+
+                            <hr>
+
+
+                            {% for field in form_create %}
+                            <div class="field">
+                                {% if field.label != 'Role' %}
+                                <div class="control">{{ field }}</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
     
                             <button class="button is-block is-danger is-large is-fullwidth">Registrar</button>
     
                         </form>
+                        {% if error %}
+                        <br>
+                        <p class="has-text-danger">{{error}}</p>
+                        {% endif %}
                     </div>
     
                 </div>

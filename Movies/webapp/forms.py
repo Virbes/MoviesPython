@@ -8,8 +8,8 @@ class MovieEditForm(forms.Form):
 
     titulo = forms.CharField(label='Titulo', required=True,
                              widget=forms.TextInput(attrs={'class': 'input', 'autofocus': 'true'}))
-    año = forms.IntegerField(label='Año', required=True,
-                             widget=forms.NumberInput(attrs={'class': 'input'}))
+    year = forms.IntegerField(label='Año', required=True,
+                              widget=forms.NumberInput(attrs={'class': 'input'}))
     categoria = forms.ChoiceField(label='Categoria', required=True, choices=category_choices,
                                   widget=forms.Select(attrs={'class': 'input'}))
     pais = forms.ChoiceField(label='Pais', required=True, choices=country_choices,
@@ -18,66 +18,29 @@ class MovieEditForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'input'}))
     precio = forms.IntegerField(label='Precio', required=True,
                                 widget=forms.NumberInput(attrs={'class': 'input'}))
-    imagen = forms.ImageField(label='Imagen')
-
-
-class LoginForm(forms.Form):
-    usuario = forms.CharField(label='Usuario')
-    contraseña = forms.PasswordInput()
+    imagen = forms.ImageField(label='Imagen', required=False)
 
 
 class CreateUserForm(forms.Form):
-    nombre = forms.CharField(label='Nombre', required=True,
-                             widget=forms.TextInput(
-                                 attrs={
-                                     'class': 'input is-large',
-                                     'placeholder': 'Nombre',
-                                     'autofocus': 'true'
-                                 }
-                             ))
-    apellidos = forms.CharField(label='Apellidos', required=True,
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'class': 'input is-large',
+    nombre = forms.CharField(label='Nombre', required=True, widget=forms.TextInput(attrs={
+                                     'class': 'input is-medium',
+                                     'placeholder': 'Nombre'
+                                 }))
+    apellidos = forms.CharField(label='Apellidos', required=True, widget=forms.TextInput(attrs={
+                                        'class': 'input is-medium',
                                         'placeholder': 'Apellidos'
-                                    }
-                                ))
-    usuario = forms.CharField(label='Usuario', required=True,
-                              widget=forms.TextInput(
-                                  attrs={
-                                      'class': 'input is-large',
-                                      'placeholder': 'Usuario'
-                                  }
-                              ))
-    password = forms.CharField(label='Contraseña', required=True,
-                               widget=forms.PasswordInput(
-                                   attrs={
-                                       'class': 'input is-large',
-                                       'placeholder': 'Contraseña'
-                                   }
-                               ))
-    direccion = forms.CharField(label='Direccion', required=True,
-                                widget=forms.TextInput(
-                                    attrs={
-                                        'class': 'input is-large',
-                                        'placeholder': 'Direccion'
-                                    }
-                                ))
-    telefono = forms.CharField(label='Telefono', required=True,
-                               widget=forms.TextInput(
-                                   attrs={
-                                       'class': 'input is-large',
+                                    }))
+    telefono = forms.CharField(label='Telefono', required=True, widget=forms.TextInput(attrs={
+                                       'class': 'input is-medium',
                                        'placeholder': 'Telefono'
-                                   }
-                               ))
-    fec_nac = forms.CharField(label='Fecha de Nacimiento',
-                              widget=forms.TextInput(
-                                  attrs={
-                                      'type': 'date',
-                                      'class': 'form-date__input'}
-                              ))
+                                   }))
+    edad = forms.CharField(label='Fecha de Nacimiento', widget=forms.NumberInput(attrs={
+                                      'type': 'number',
+                                      'class': 'input is-medium',
+                                      'placeholder': 'Edad'
+                                  }))
     role = forms.ChoiceField(label='Role', choices=[(1, 'Admin'), (2, 'Normal user')], required=False)
-    imagen = forms.ImageField(label='Imagen', required=True)
+    imagen = forms.ImageField(label='Imagen', required=False)
 
 
 class CategoryForm(forms.Form):

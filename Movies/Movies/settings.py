@@ -130,5 +130,6 @@ WTF_CSRF_ENABLED = True
 UPLOAD_FOLDER = '../webapp/static/images/upload/movies'
 UPLOAD_FOLDER_PROFILE = '../webapp/static/images/upload/profile_picture'
 ADMIN_USERS = ['Admin']
-
 LOGIN_REDIRECT_URL = reverse_lazy('inicio')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+LOGIN_URL = 'login'

@@ -10,17 +10,18 @@
 
         <div class="has-text-centered titulo-principal">
 
-            {% if not current_user.is_authenticated %}
-                 <h1 class="title">MI COLECCIÓN DE PELÍCULAS</h1>
+            <h1 class="title">MI COLECCIÓN DE PELÍCULAS</h1>
+
+            {% if user.is_authenticated %}
+            <p class="subtitle has-text-weight-bold">
+                HOLA <!-- Text -->
+                <span class="has-text-grey-light">{{ user.username }}</span>
+            </p>
             {% endif %}
 
-            <div>
-                {% if current_user.is_authenticated %}
-                <h1 class="title">HOLA {{ current_user.username }}</h1>
-                {% endif %}
-            </div>
-            
-            <p class="subtitle">Que tenga un buen {{ day }}</p>
+            <p class="subtitle">
+                Que tenga un buen {{ day }}
+            </p>
 
             <div>
                 <a class="button is-danger" href="{% url 'movies_page' %}">Lista de Películas</a>

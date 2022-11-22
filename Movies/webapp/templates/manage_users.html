@@ -10,12 +10,12 @@
 
 <h2 class="contenedor control has-text-black">Usuarios</h2>
 
-<section class="mt10 mb-6">    
+<section class="mb-6">    
     <div class="container mt-10 has-text-centered">
         <div class="column is-4 is-offset-4">
-            <a href="{{ url_for('create_user') }}" class="button is-block is-info is-large is-fullwidth mb-3">Crear usuario</a>
-            <a href="{{ url_for('users_edit') }}" class="button is-block is-info is-large is-fullwidth mb-3">Editar usuario</a>
-            <a href="{{ url_for('delete_users') }}" class="button is-block is-danger is-large is-fullwidth mb-3">Eliminar usuario</a>
+            <!-- <a href="{% url 'create_user' %}" class="button is-block is-info is-large is-fullwidth mb-3">Crear usuario</a> -->
+            <a href="{% url 'users_edit' %}" class="button is-block is-info is-large is-fullwidth mb-3">Editar usuario</a>
+            <a href="{% url 'delete_users' %}" class="button is-block is-danger is-large is-fullwidth mb-3">Eliminar usuario</a>
         </div>
     </div>
     </div>

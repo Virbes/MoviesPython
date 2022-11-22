@@ -1,6 +1,8 @@
 from random import randrange
 from django.db import connection
 
+from webapp.Pojo import Movie, User_Class
+
 
 def get_movies():
     movies = []
@@ -10,7 +12,7 @@ def get_movies():
         cursor.execute(query)
 
         for _id, title, year, image in cursor:
-            movies.append((_id, (title, year, '', '', image, 0, 0)))
+            movies.append((_id, Movie(title, year, '', '', image, 0, 0)))
 
     return movies
 
@@ -26,7 +28,7 @@ def get_movie(movie_key):
 
         if data is not None:
             _id, title, year, category, country, image, stock, price = data
-            return (title, year, category, country, image, stock, price)
+            return Movie(title, year, category, country, image, stock, price)
 
         return None
 
@@ -57,8 +59,8 @@ def get_user(username):
         user = cursor.fetchone()
 
         if user:
-            id_user, name, last_name, address, phone, date_birth, role, image, user_name, password = user
-            return id_user, name, last_name, address, phone, date_birth, role, image, user_name, password
+            id_user, name, last_name, address, phone, age, role, image, user_name, password = user
+            return User_Class(id_user, name, last_name, phone, age, role, image, user_name, password)
         else:
             return None
 
@@ -71,7 +73,7 @@ def get_users():
         all_users = cursor.fetchall()
 
         for id_user, Name, LastName, Address, PhoneNumber, DateBirth, Role, Image, Username, Password in all_users:
-            user = (id_user, Name, LastName, Address, PhoneNumber, DateBirth, Role, Image, Username, Password)
+            user = User_Class(id_user, Name, LastName, Address, PhoneNumber, DateBirth, Role, Image, Username, Password)
 
             users_array.append(user)
 
@@ -80,9 +82,11 @@ def get_users():
 
 def create_user_db(user):
     with connection.cursor() as cursor:
-        query = 'INSERT INTO Users(Name, LastName, Address, Phone, DateBirth, Role, Image, Username, Password) ' \
-                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-        cursor.execute(query, (user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8]))
+        query = 'INSERT INTO Users(Name, LastName, Phone, Age, Role, Image, Username, Password) ' \
+                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+        cursor.execute(query, (user.name, user.last_name,
+                               user.phone, user.age, user.role,
+                               user.image, user.username, user.password))
 
         connection.commit()
 
@@ -129,7 +133,7 @@ def delete_my_movie_db(my_movie_key):
 def add_movie(movie):
     with connection.cursor() as cursor:
         query = 'INSERT INTO Movies(Title, Year, Category, Country, Image, Stock, Price) ' \
-                'VALUES(?, ?, ?, ?, ?, ?, ?)'
+                'VALUES(%s, %s, %s, %s, %s, %s, %s)'
         cursor.execute(query, (movie.title, movie.year, movie.category, movie.country,
                                movie.image, movie.stock, movie.price))
         connection.commit()
@@ -142,14 +146,14 @@ def add_movie(movie):
 def update_movie(movie_key, movie):
     with connection.cursor() as cursor:
         if not movie.image:
-            query = 'UPDATE Movies SET Title = ?, Year = ?, Category = ?, Country = ?, Stock = ?, Price = ? ' \
-                    'WHERE id_movie = ?'
+            query = 'UPDATE Movies SET Title = %s, Year = %s, Category = %s, Country = %s, Stock = %s, Price = %s ' \
+                    'WHERE id_movie = %s'
             cursor.execute(query, (movie.title, movie.year, movie.category, movie.country,
                                    movie.stock, movie.price, movie_key))
             connection.commit()
         else:
-            query = 'UPDATE Movies SET Title=?, Year=?, Category=?, Country=?, Image=?, Stock=?, Price=? ' \
-                    'WHERE id_movie=?'
+            query = 'UPDATE Movies SET Title=%s, Year=%s, Category=%s, Country=%s, Image=%s, Stock=%s, Price=%s ' \
+                    'WHERE id_movie=%s'
             cursor.execute(query, (movie.title, movie.year, movie.category, movie.country, movie.image, movie.stock,
                                    movie.price, movie_key))
             connection.commit()

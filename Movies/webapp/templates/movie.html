@@ -4,12 +4,11 @@
 {% block content %}
 
 <div class="hero has-background has-text-centered">
-    <div class="hero-body">
-        {% include 'header.html' %}
-    </div>
+    <div class="hero-body">{% include 'header.html' %}</div>
 </div>
 
-    <h2 class="contenedor control has-text-black">Pelicula</h2>
+<h2 class="contenedor control has-text-black">Pelicula</h2>
+
 <div class="box contenedor mt-6">
 
     <div class="columns p-4 is-vcentered c-img">
@@ -46,9 +45,9 @@
                 <tr>
                     <th>Estado:</th>
                     {% if movie.stock > 0%}
-                    <td class="has-text-primary">Avalible</td>
+                    <td class="has-text-primary">Disponible</td>
                     {% else %}
-                    <td class="has-text-danger">Not Avalible</td>
+                    <td class="has-text-danger">No Disponible</td>
                     {% endif %}
                 </tr>
             </table>
@@ -57,17 +56,14 @@
 </div>
 
 <div class="field centrar contenedor mb-6">
-    {% if current_user.is_authenticated and current_user.is_admin %}
     <div class="control">
-        <a class="button is-primary is-small" href="{{ request.path }}/edit">Editar</a>
+        <a class="button is-success is-small" href="{{ request.path }}acquire">Adquirir</a>
     </div>
-    {% endif %}
 
-    {% if current_user.is_authenticated and movie.stock > 0 %}
-    <div class="control">
-        <a class="button is-danger is-small" href="{{ request.path }}/acquire">Adquirir</a>
+    <div class="centrar" style="width: 14%;">
+        <a class="button is-primary is-small" href="{{ request.path }}edit">Editar</a>
+        <a class="button is-danger is-small" href="{{ request.path }}delete">Eliminar</a>
     </div>
-    {% endif %}
 </div>
 
 

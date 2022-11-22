@@ -10,3 +10,8 @@ function ShowItems(box) {
     }
 
 }
+
+
+document.getElementById("id_username").placeholder = "Usuario";
+document.getElementById("id_password1").placeholder = "Contraseña";
+document.getElementById("id_password2").placeholder = "Confirmar contraseña";
